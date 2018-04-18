@@ -5,4 +5,4 @@
 
 #### 运行
 > 命令行种输入 ghci
-!('./start.png')
+> ![start]('./start.png')
