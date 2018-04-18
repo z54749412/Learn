@@ -40,12 +40,16 @@
 #### 链接
 > 链接可以由两种形式生成：行内式和参考式。
 行内式：
->> [test](https:://www.test.com)。
->> [test1][1]
-   [test2][2]
-[1]:https:://www.test1.com
-[2]:https:://www.test2.com
+>> [test](https:://www.test.com)  
 
+>> [test1][1]  
+
+   [test2][2]  
+
+[1]:https:://www.test1.com  
+
+[2]:https:://www.test2.com  
+ 
 
 
 #### 分割线
