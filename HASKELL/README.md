@@ -8,7 +8,8 @@
 > ![start](./start.png)
 
 #### 命令
-> 运算
+> 运算  
+
     ghci> 2 + 15
 
     17
@@ -25,7 +26,8 @@
 
     2.5
 
-> boolean
+> boolean  
+
     ghci> True && False
 
     False
@@ -46,7 +48,8 @@
 
     False
 
-> 相等性
+> 相等性  
+
     ghci> 5 == 5
 
     True
@@ -93,3 +96,6 @@
     ghci> (succ 9) + (max 5 4) + 1
 
     16
+
+
+> :l filename.hs 装载函数
