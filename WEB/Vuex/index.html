@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script src="./vue.js"></script>
+  <script src="./vuex.js"></script>
+  <script src="./vue-router.js"></script>
+  <script src="./api.js"></script>
+</head>
+<body>
+  <div id="app">
+    <h1>Shopping Cart</h1>
+      <router-link to='/product'>Product</router-link>
+      <router-link to='/cart'>Cart</router-link>
+
+      <router-view></router-view>
+    <hr>
+    <Product></Product>
+    <hr>
+    <my-cart></my-cart>
+  </div>
+
+  <script>
+    var store = new Vuex.Store({
+      state:{
+        products:{
+          'iPad 4 Mini': '500.01',
+          'H&M T-Shirt White': '10.99',
+          'Charli XCX - Sucker CD': '19.99'
+        },
+        cart: []
+      },
+      mutations:{
+        'addtoCart':function(state,key){
+          var products = state.products;
+          var cart = state.cart;
+          for(var k in cart){
+            if(cart[k].pname == key){
+              cart[k].num ++
+              return
+            }
+          }
+          var goods = {
+            pname: key,
+            prize: products[key],
+            num:1 
+          }
+          state.cart.push(goods);
+        },
+        'checkout':function(state){
+          state.cart = [];
+        }
+      },
+      getters:{
+        total:function(state){
+          var total = 0
+          state.cart.forEach(function(v){
+            total = total + v.prize * v.num
+          })
+          return total
+        }
+      }
+    })
+
+    var product = {
+      template:`
+      <div>
+        <h3>Product</h3>
+        <ul>
+          <li v-for="(item,key) in products">
+            {{key}} - \${{item}}
+            <br />
+            <button @click="addtoCart(key)">加入购物车</button>
+          </li>
+        </ul>
+      </div>
+      `,
+      computed: {
+        products: function(){
+          return this.$store.state.products;
+        },
+        cart:function(){
+          return this.$store.state.cart;
+        }
+      },
+      methods:{
+        addtoCart:function(key){
+          this.$store.commit('addtoCart',key);
+        }
+      }
+    }
+
+    var product = Vue.extend(product)
+    
+    Vue.component('Product', product)
+    var myCart = {
+      template:`
+        <div>
+          <h3>Your Cart</h3>
+          <p v-if="cart.length == 0">请将商品加入购物车</p>
+          <ul v-else>
+            <li v-for="item in cart">
+              {{item.pname}} - {{item.prize}} × {{item.num}}
+            </li>  
+          </ul>
+          <p>Total : \${{total}}</p>
+          <button :disabled="total == 0" @click="checkout">Checkout</button>
+        </div>
+      `,
+      computed:{
+        cart:function(){
+          return this.$store.state.cart;
+        },
+        total:function(){
+          var total = this.$store.getters.total;
+          return parseFloat(total).toFixed(2);
+        }
+      },
+      methods:{
+        checkout:function(){
+          this.$store.commit('checkout');
+        }
+      }
+    }
+    Vue.component("myCart", myCart)
+    var myCart = Vue.extend(myCart)
+
+
+    var router = new VueRouter({
+      routes: [
+        {
+          path: '/',
+          redirect: '/product'
+        },
+        {
+          path: '/product',
+          component: product
+        },{
+          path: '/cart',
+          component: myCart
+        }
+      ]
+    })
+
+
+    new Vue({
+      el: '#app',
+      store:store,
+      router:router
+    })  
+  </script>
+</body>
+</html>
