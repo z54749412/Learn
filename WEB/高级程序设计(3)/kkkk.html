@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- <script>
+        var number = 2;
+        var obj = {
+            number: 4,
+            fn1: (function () {
+                debugger;
+                this.number *= 2;
+                var number = 3;
+                return function () {
+                    debugger;
+                    this.number *= 2;
+                    number *= 3;
+                    console.log(1111111);
+                    console.log(number);
+                }
+            })(),
+            db2: function () {
+                this.number *= 2;
+            }
+        }
+        var fn1 = obj.fn1;
+        console.log(22222222);
+        console.log(number);
+        fn1();
+        obj.fn1();
+        console.log(333333333);
+        console.log(window.number);
+        console.log(44444444444);
+        console.log(obj.number);
+    </script> -->
+    <script>
+        function* fibs() {
+            let a = 0;
+            let b = 1;
+            while (true) {
+                debugger;
+                yield a;
+                console.log(a);
+                [a, b] = [b, a + b];
+            }
+        }
+        let [first, second, third, fourth,
+            fifth, sixth
+        ] = fibs();
+        console.log(sixth) // 5
+    </script>
+</body>
+
+</html>

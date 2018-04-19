@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <ul id="myList">
+    </ul>
+    <script>
+        /*
+            防止批量添加元素时，页面多次渲染影响应能，可以先把创建好的标签放入
+            文档片段中，最后一次向需要添加内容的元素一次性添加文档片段中的内容
+        */
+        var fragment = document.createDocumentFragment();
+        var ul = document.getElementById("myList");
+        console.log(ul);
+        var li  = null;
+        for(var i = 0; i < 3; i++){
+            li = document.createElement("li");
+            li.appendChild(document.createTextNode("item"+(i+1)));
+            fragment.appendChild(li);
+        }
+        ul.appendChild(fragment);
+    </script>
+</body>
+</html>

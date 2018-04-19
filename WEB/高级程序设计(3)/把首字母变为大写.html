@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+    </head>
+    <body>
+    <!-- 
+		var str = "hello world i am hah go to ll lee string key";
+	    var arr = str.split(" ");
+	    var newarr = [];
+	    console.log(arr);
+	    for(var i =0;i<arr.length;i++){
+	    	newarr.push(arr[i].split(""));
+	    }
+	    console.log(newarr);
+     -->
+    <script type="text/javascript">
+        var str = "hello world i am hah go to ll lee string key";
+        // var arr = str.split(" ");
+        // var newarr = [];
+       	// var arr1 = [];
+        // // console.log(arr);
+        // for(var i =0;i<arr.length;i++){
+        // 	newarr.push(arr[i].split(""));
+        // }
+        // // console.log(newarr);
+        // for(var i = 0;i<newarr.length;i++){
+        	
+        // 	newarr[i][0] = newarr[i][0].toUpperCase();
+
+        // 	console.log(newarr[i]);
+        // 	arr1[i] = newarr[i].join("");
+        // }
+        // // arr1 = arr1.join(" ");
+        // console.log(newarr);
+       	// arr1 = arr1.join(" ");
+        // console.log(arr1);
+
+
+        function titleCase(str) {
+             var newarr,newarr1=[]; 
+             newarr = str.toLowerCase().split(" ");
+             for(var i = 0 ; i < newarr . length ; i++){
+                newarr1.push(newarr[i][0].toUpperCase()+newarr[i].substring(1));
+             }
+             return newarr1.join(' ');
+        }
+        console.log(titleCase(str));
+    </script>
+    </body>
+</html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>continue and break</title>
+</head>
+<body>
+<script>
+    var bNum = 0;
+    for(var i = 1;i<10;i++){
+        if(i%5==0){
+            break;
+        }
+        bNum++;
+    }
+    console.log("bNum:"+bNum);
+    var cNum = 0;
+    for(var i = 1;i<10;i++){
+        if(i%5==0){
+            continue;
+        }
+        cNum++;
+    }
+    console.log("cNum:"+cNum);
+</script>
+</body>
+</html>

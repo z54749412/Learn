@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        var nums = [1, 2, 3, 4, 5];
+        // for of 遍历
+        for (let k of nums) {
+            console.log(k);
+        }
+        console.log('-------------------------');
+
+
+        // 使用es6迭代器
+        let iterator = nums[Symbol.iterator]();
+        console.log(iterator.next());
+        console.log(iterator.next().value);
+        console.log(iterator.next());
+        console.log(iterator.next());
+        console.log(iterator.next());
+        console.log(iterator.next()); // undefined
+        console.log(iterator.next()); // undefined
+        console.log('-------------------------');
+
+
+        //entries 方法
+        let aEntries = nums.entries();
+        console.log(aEntries.next().value);
+        console.log(aEntries.next());
+        console.log(aEntries.next().value);
+        console.log(aEntries.next().value);
+        console.log(aEntries.next().value);
+        console.log(aEntries.next().value); // undefined 
+        console.log(aEntries.next().value); // undefined
+        console.log('-------------------------');
+
+
+        //keys 方法 
+        let aKeys = nums.keys();
+        console.log(aKeys.next().value);
+        console.log(aKeys.next());
+        console.log(aKeys.next().value);
+        console.log(aKeys.next().value);
+        console.log(aKeys.next().value);
+        console.log(aKeys.next().value); // undefined
+        console.log(aKeys.next().value); // undefined
+        console.log('-------------------------');
+
+
+        //values 方法  (未实现)
+        // let aValues = nums.values();
+        // console.log(aValues.next().value);
+        // console.log(aValues.next());
+        // console.log(aValues.next().value);
+        // console.log(aValues.next().value);
+        // console.log(aValues.next().value);
+        // console.log(aValues.next().value); // undefined 
+        // console.log(aValues.next().value); // undefined
+    </script>
+</body>
+
+</html>

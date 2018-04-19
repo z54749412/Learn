@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // 柯里化
+        function foo(p1, p2) {
+            this.val = p1 + p2;
+        }
+        var bar = foo.bind(null, "p1");
+
+        // baz 的参数都会当作p2 传入foo的第二个参数中
+        var baz = new bar([1, 2, 3]);
+
+        console.log(baz.val);
+
+
+
+        // 创建一个空对象
+        var ø = Object.create(null);
+        /*
+            Object.create(null);该方法比 var ø = {}更空，它不会创建Object.prototype
+            所以bind 传 ø 比传 null更安全
+        */
+    </script>
+</body>
+
+</html>

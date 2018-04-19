@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>柯里化  Promise</title>
+</head>
+<body>
+    <script>
+        // 柯里化
+        function foo(p1, p2){
+            this.val = p1 + p2;
+        }
+        var bar = foo.bind(null, "p1");
+
+        // baz 的参数都会当作p2 传入foo的第二个参数中
+        var baz = new bar([1,2,3]);
+
+        console.log(baz.val);
+
+//         var removeDuplicates = function(nums) {
+//     // nums.sort();
+//     // var newArr = [];
+//     /*输出数组中每一项出现的次数*/
+//     var o = {};
+//     for (var i = 0; i < nums.length; i++) {
+//         var item = nums[i];
+//         if (o[item]) {
+//             nums.splice(i,1);
+//             i = i-1;
+//             // o[item]++;
+//         } else {
+//             o[item] = 1;
+//         }
+//     }
+//     return nums.length;
+// };
+// removeDuplicates([1,1,1])
+    // for(var i = 0; i < 9; i++){
+    //    ~function(i){
+    //     setTimeout(function(){ 
+    //         console.log(i); 
+    //         },0);
+    //    }(i);
+    // }
+    // console.log(i);
+
+
+
+
+
+
+
+    // +function(){
+    //     console.log(1);
+    // }();
+
+
+
+
+
+
+
+
+        function asyncFunction() {
+            return new Promise(function (resolve, reject) {
+                setTimeout(function () {
+                    console.log(1221313213);
+                    resolve('Async Hello world');
+                }, 1000);
+            });
+        }
+
+        asyncFunction().then(function (value) {
+            console.log(value);    // => 'Async Hello world'
+            return 11111;
+        }).catch(function (error) {
+            console.log(error);
+        }).then(function(value){
+            setTimeout(function(){
+                console.log(value)
+            },1000);
+        });
+
+
+
+    </script>
+</body>
+</html>
+
+
+

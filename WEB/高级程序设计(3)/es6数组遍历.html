@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // 遍历数组
+        var arr = [1, 2, 3, 4, 5, 6]
+        var it = arr[Symbol.iterator]();
+        console.log(it);
+        console.log(it.next());
+        console.log(it.next());
+        console.log(it.next());
+        console.log(it.next());
+        console.log(it.next());
+        console.log(it.next());
+        console.log(it.next()); // {value: undefined, done: true}
+
+        // 遍历对象
+        var myObj = {
+            a: 2,
+            b: 3
+        };
+        var myObj2 = {
+            a: 3,
+            b: 4
+        }
+        // var o2It = myObj2[Symbol.iterator](); // Uncaught TypeError: myObj2[Symbol.iterator] is not a function
+        // console.log(o2It.next()); 
+        Object.defineProperty(myObj, Symbol.iterator, {
+            enumerable: false,
+            writable: false,
+            configurable: true,
+            value: function(){
+                var o = this;
+                var idx = 0;
+                var ks = Object.keys( o );
+                return {
+                    next: function(){
+                        return {
+                            value: o[ks[idx++]],
+                            done: (idx > ks.length)
+                        };
+                    }
+                }
+            },
+        });
+        var oIt = myObj[Symbol.iterator]();
+        console.log(oIt.next());
+        console.log(oIt.next());
+        console.log(oIt.next());
+        for(var v of myObj){
+            console.log(v); // 2 3 这里的v就是值
+        }
+    </script>
+</body>
+
+</html>

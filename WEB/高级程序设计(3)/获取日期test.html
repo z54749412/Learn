@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        //  1，获取当前月的最后一天
+        function getCurrentMonthLastDay(){
+            var current=new Date();
+            var currentMonth=current.getMonth();
+            var nextMonth=++currentMonth;
+            var nextMonthDayOne =new Date(current.getFullYear(),nextMonth,1);
+            var minusDate=1000*60*60*24;
+            return new Date(nextMonthDayOne.getTime()-minusDate);
+        }
+ 
+        var lastDay = getCurrentMonthLastDay();
+        alert(lastDay.getFullYear() + "-" +(lastDay.getMonth()+1)+"-"+lastDay.getDate()); //2015-4-30
+        
+        //  获取任意时间的最后一天
+        function getLastDay(d){
+            var current=new Date(d);
+            var currentMonth=current.getMonth();
+            var nextMonth=++currentMonth;
+            var nextMonthDayOne =new Date(current.getFullYear(),nextMonth,1);
+            var minusDate=1000*60*60*24;
+            return new Date(nextMonthDayOne.getTime()-minusDate);
+        }
+        
+        var lastDay = getLastDay('2015-05-20');
+        alert(lastDay.getFullYear() + "-" +(lastDay.getMonth()+1)+"-"+lastDay.getDate()); //2015-5-31
+    </script>
+</body>
+</html>

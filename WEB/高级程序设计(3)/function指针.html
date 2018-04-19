@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<script>
+    function sum(num1,num2){
+        return num1+num2;
+    }
+
+//    console.log(sum(10,20));//30
+
+    var anotherSum = sum;
+
+//    console.log(anotherSum(10,20));//30
+
+    sum = null;
+
+    /*
+    *
+    * 这里sum为null清空的是sum的地址索引
+    * 而堆里还保存着function内部代码，
+    * 并且another sum 的地址索引指向它
+    **/
+    console.log(anotherSum(10,20));//30
+    console.log('----------------');
+</script>
+</body>
+</html>

@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+<div id="outer">hello</div>
+    <ul>
+    <li>Item</li>
+    <li>Item</li>
+    <li></li>
+    <li></li>
+    <li>Item</li>
+    </ul>
+<script type="text/javascript">
+var items = document.getElementsByTagName("li");
+for( var i = 0; i < items.length; i++ ){
+    if( items[i].innerHTML == "" ){
+        items[i].parentNode.removeChild(items[i]);
+    }
+}
+
+    // var a = 1;
+
+</script>
+    <script>
+
+    // var foo = function bar(name){
+    //     console.log("hello"+name);
+    //     console.log(bar);
+    // }
+    // foo("world");
+    // // console.log(bar);
+    // console.log(foo.toString());
+
+
+
+    // c = 5;
+    // function test3(){
+    //     window.c = 3;
+    //     console.log(c);
+    //     var c;
+    //     console.log(window.c);
+    // }
+    // test3();
+
+    
+    // function bar(){
+    //     return foo;
+    //     foo = 10;
+    //     var foo = 11;
+    //     function foo(){}
+    //     // var foo = 11;
+
+    // }
+    // console.log(typeof bar());  //function
+
+
+    // var a;
+    // var b = a*0;
+    // if(b==b){
+    //     console.log(b*2+"2"-0+4);
+    // }else{
+    //     console.log(!b*2+"2"-0+4);//26
+    //     var c = !b*2;    //true*2 = 2
+    // }
+
+
+    // var t = 10;
+    // function test(t){
+    //     var t = ++t;
+    //     console.log(t); //11
+    // }test(t);
+    // console.log(t);     //10
+        // Object.prototype.outerHTML =  function(){
+        //     var innerCon = this.innerHTML,
+        //     outerCon = this.appendChild(innerCon);
+        //     console.log(  outerCon );  
+        // }
+        // console.log(  document.getElementById("outer").innerHTML );
+        // console.log(  document.getElementById("outer").outerHTML );
+
+        // for( let i = 0; i < 5; i++ ){
+        //     setTimeout(function(){
+        //         console.log(i+'');
+        //     }, 1000*i);
+        // }
+        // for (var i = 0; i < 5; i++) {
+        //     // console.log(i); //0,1,2,3,4
+        //     setTimeout(function() {
+        //         console.log(i);
+        //     }, 1000 * i);
+        // }
+        // console.log(i);   //输出一个5，又输出5个5
+
+        // for (var i = 0; i < 5; i++) {
+        //     setTimeout((function() {
+        //         console.log(i);
+        //     })(), 1000 * i);
+        // }
+        //立刻输出0，1，2，3，4
+        
+
+        // for (var i = 0; i < 5; i++) {
+        //     function foo() {
+        //         console.log(i); 
+        //     }
+        //     foo(i); //1,2,3,4
+        // }
+
+        // for (var i = 0; i < 5; i++) {
+        //     (function(j) {     //闭包的函数作用域
+        //         setTimeout(function() {
+        //             console.log(j);
+        //         }, 1000 * i);   //这里将i换为j, 可以证明以上的想法。
+        //     })(i);
+        // }    //延时输出0,1,2,3,4
+
+
+
+        // var throttle = function(delay, action) {
+        //     var last = 0
+        //     return function() {
+        //         var curr = +new Date()
+        //         if (curr - last > delay) {
+        //             action.apply(this, arguments)
+        //             last = curr
+        //         }
+        //     }
+        // }
+
+        // // window.onresize = function() {
+        // //     console.log(1111)
+        // // }
+
+
+        // window.onresize = throttle(100, function() {
+        //     console.log(222);
+        // })
+        // function f1(){
+        //     var tmp = 1;
+        //     this.x = 3;
+        //     console.log(tmp);
+        //     console.log(this.x);
+        // }
+        // var obj = new f1();
+        // console.log(obj.x);
+        // console.log(f1());
+        // function f2(o){
+        //     o.zurl = "123";
+        //     o = new Object();
+        //     o.zurl = "456";
+        //     console.log(o.zurl);
+        // }
+        // var t = new Object();
+        // f2(t);
+        // console.log(t.zurl);
+        // console.log(o.zurl);
+
+    </script>
+</body>
+
+</html>

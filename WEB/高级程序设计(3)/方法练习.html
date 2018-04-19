@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+<script>
+    //split()拆分字符串，以传入参数的形式
+    //join()以传入参数的形式拼接
+    //绑定原型   类型.prototype.方法();  例String.prtototype.trim=function(){内部执行代码};
+    //这里用apply绑定上下文
+    function log1() {
+        console.log(arguments);
+    };
+    log1('hello', 'world');
+
+    console.log("hello", "world");
+
+    function log2() {
+        console.log.apply(console, arguments);
+    };
+    log2('hello', 'world');
+
+
+    function log() {
+        console.log.apply(console, arguments);
+    };
+    log(1, 2, 3, 4);
+    log('hello', 'world');
+
+    /*
+     *将伪数组转化成数组的方式
+     *Array.prototype.slice.call(伪数组);
+     *[].prototype.slice.call(伪数组);
+     */
+
+    // function log() {
+    //     var args = Array.prototype.slice.call(arguments); //将伪数组转换成数组
+    //     args.unshift('(app)');
+    //     console.log(args);
+    // }
+    // log('hello', 'world');
+
+
+    //context
+    var User = {
+        count: 1,
+        getCount: function() {
+            return this.count;
+        }
+    };
+    console.log(User.getCount()); //1
+    var func1 = User.getCount;
+    console.log(func1()); //undefined
+    var func2 = User.getCount.bind(User); //用bind绑定this  this指向User参数
+    console.log(func2()); //1
+
+    //bind的兼容写法
+    Function.prototype.bind = Function.prototype.bind || function(context) {
+        var that = this;
+        return function() {
+            return that.apply(context, arguments);
+        }
+    }
+</script>
+
+</html>

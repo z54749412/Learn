@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<script>
+    function outer(){
+        inner();
+    }
+    function inner(){
+        /*该方法耦合度过高不建议这么写*/
+//        console.log(inner.caller);
+        /*低耦合写法*/
+        console.log(arguments.callee.caller);
+    }
+    outer();
+</script>
+</body>
+</html>

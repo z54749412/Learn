@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Watermarks</title>
+</head>
+
+<body>
+    <div>
+        <canvas id="myCanvas" width="1000" height="800">您的浏览器不支持Canvas</canvas>
+        <img id="img" src="./test.jpg" style="display: none">
+    </div>
+    <script>
+        //新建img对象 
+        var img = new Image();
+
+        //为新建的img赋值src
+        var mImg = document.getElementById("img");
+        img.src = mImg.getAttribute('src');
+
+        // img加载完成
+        img.onload = function () {
+            //准备canvas
+            var canvas = document.getElementById("myCanvas");
+            var context = canvas.getContext("2d");
+            // 绘制图片
+            context.drawImage(img, 0, 0);
+            // 绘制水印
+            context.font = "20px microsoft yahei";
+            context.fillStyle = "rgba(255,0,0,0.7)";
+            context.fillText("my images", 100, 100);
+        }
+    </script>
+</body>

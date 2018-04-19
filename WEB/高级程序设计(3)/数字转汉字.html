@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        function numberText(num) {
+            let numberIndex = ['零', '一', '二', '三', '四', '五', '六', '七', '八', '九'];
+            let textIndex = ['', '十', '百', '千', '万'];
+            let strNum = num + '';
+            let ret = [];
+            let retSet = new Set();
+            for (let i = strNum.length - 1; i >= 0; i--) {
+                ret.push(numberIndex[strNum[i]]);
+            }
+            for (let i = ret.length - 1; i >= 0; i--) {
+                retSet.add(ret[i] + (ret[i] !== '零' ? textIndex[i] : ''));
+            }
+            return Array.from(retSet).join('');
+        }
+    </script>
+</body>
+
+</html>

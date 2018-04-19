@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        ul {
+            list-style: none;
+            position: relative;
+            overflow-y: scroll;
+            height: 200px;
+        }
+        li {
+            width: 200px; 
+            height: 40px;
+            background-color: #ccc;
+        }
+        .hidden {
+            display: none;
+        }
+        .title {
+            position: absolute;
+            top: 0;
+            left: 0;
+            padding-bottom: 40px;
+            background-color: skyblue;
+        }
+        .content {
+            margin-top: 40px;
+            background-color: pink;
+        }
+    </style>
+    <script src="./jquery-3.3.1.js"></script>
+</head>
+<body>
+    <ul>
+        <li class="title">title</li>
+        <div class="content">
+            <li>1</li>
+            <li>2</li>
+            <li>3</li>
+            <li>4</li>
+<li>1</li>
+<li>2</li>
+<li>3</li>
+<li>4</li>
+<li>1</li>
+<li>2</li>
+<li>3</li>
+<li>4</li>
+<li>1</li>
+<li>2</li>
+<li>3</li>
+<li>4</li>
+        </div>
+    </ul>
+    <!-- <ul>
+        <li>
+            <div class="sequence">
+                <div class="sequenceShow">1</div>
+                <input class="sequenceInput hidden" type="text" value=""/>
+                <input data-id="1" class="btn" type="button" value="排序" />
+            </div>
+            这是第一条
+        </li>
+        <li>
+            <div class="sequence">
+                <div class="sequenceShow">2</div>
+                <input class="sequenceInput hidden" type="text" value="" />
+                <input data-id="2" class="btn" type="button" value="排序" />
+            </div>
+            这是第二条
+        </li>
+        <li>
+            <div class="sequence">
+                <div class="sequenceShow">3</div>
+                <input class="sequenceInput hidden" type="text" value="" />
+                <input data-id="3" class="btn" type="button" value="排序" />
+            </div>
+            这是第三条
+        </li>
+        <li>
+            <div class="sequence">
+                <div class="sequenceShow">4</div>
+                <input class="sequenceInput hidden" type="text" value="" />
+                <input data-id="4" class="btn" type="button" value="排序" />
+            </div>
+            这是第四条
+        </li>
+        <li>
+            <div class="sequence">
+                <div class="sequenceShow">5</div>
+                <input class="sequenceInput hidden" type="text" value="" />
+                <input data-id="5" class="btn" type="button" value="排序" />
+            </div>
+            这是第五条
+        </li>
+    </ul> -->
+    <script>
+        $(function(){
+            console.log(1);
+            alert(1);
+            // $('.btn').on('click', function(e){
+            //     var $target = $(e.target)
+            //     var _fatherLi = $(this).parent();
+            //     var lis = $('li');
+            //     if($(this).val()=='排序'){
+            //         var value = _fatherLi.find('.sequenceShow').html();
+            //          _fatherLi.find('.sequenceInput').val(value);
+            //         $('.btn').val('排序');
+            //         $(this).val('保存');
+            //         $('.sequenceInput').addClass('hidden');
+            //         $('.sequenceShow').removeClass('hidden');
+            //         _fatherLi.find('.sequenceInput').removeClass('hidden');
+            //         _fatherLi.find('.sequenceShow').addClass('hidden');
+            //     }else{
+            //         var value =  _fatherLi.find('.sequenceInput').val();
+            //         console.log(value);
+            //         if(value > lis.length){
+            //             alert('错误！');
+            //             return;
+            //         }else if(0 < value && value <= lis.length){
+            //             // console.log(11111);
+            //             // _fatherLi.find('.sequenceShow').html(value);
+            //             // $(this).attr('data-id', value);
+            //             // _fatherLi.find('.sequenceInput').val(value);
+            //             // console.log($(this).attr('data-id'));
+            //             var $curNum = $target.parent().find('.sequenceShow');
+            //             var curNum = parseInt($curNum.text());
+            //             for(var i = 0; i < lis.length; i++){
+            //                 var $num = $(lis[i]).find('.sequenceShow');
+            //                 var num = $num.text();
+            //                 if (num > curNum) {
+            //                     $num.text(num - 1)
+            //                 }
+            //                 if(i<curNum){
+
+            //                 }else{
+            //                 }
+            //             }
+            //             $curNum.text(value);
+
+            //         }
+            //         $(this).val('排序');
+            //         $('.sequenceShow').removeClass('hidden');
+            //         _fatherLi.find('.sequenceInput').addClass('hidden');
+            //         _fatherLi.find('.sequenceShow').removeClass('hidden');
+            //     }
+            // })
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        /*没有使用原型prototype*/
+        function Person1(name) {
+            this.name = name;
+            this.sayHello = function() {
+                console.log(this.name);
+            };
+        }
+
+        function Person2(name) {
+            this.name = name;
+            this.sayHello = function() {
+                console.log(this.name);
+            };
+        }
+        var xm = new Person1("xm");
+        var xz = new Person1("xz");
+        var xh = new Person2("xh");
+        console.log("p1和p2不同函数构造的" + (xm.sayHello == xh.sayHello));
+        console.log("都是通过P1构造的" + (xm.sayHello == xz.sayHello));
+        console.log("---------------------------");
+        /*使用原型prototype*/
+        function Person3(name) {
+            Person3.prototype.name = name;
+            Person3.prototype.sayHello = function() {
+                console.log(this.name);
+            };
+        }
+
+        function Person4(name) {
+            Person4.prototype.name = name;
+            Person4.prototype.sayHello = function() {
+                console.log(this.name);
+            };
+        }
+        var dm = new Person3("dm");
+        var dz = new Person3("dz");
+        var dh = new Person4("dh");
+        console.log("通过P3,P4不同函数构造的" + (dm.sayHello == dh.sayHello));
+        console.log("同样都是通过P3构造的" + (dm.sayHello == dz.sayHello));
+        console.log("---------------------------");
+
+        function Person(name) {
+            this.name = name;
+        }
+        Person.prototype.SayHello = function() {
+            console.log("Hello" + this.name);
+        }
+
+        function Person5(name) {
+            Person.call(this.name);
+        }
+        Person5.prototype = new Person();
+        var Bill = new Person("Bill");
+        var Steve = new Person5("Steve");
+        console.log(Bill.SayHello == Steve.SayHello);
+    </script>
+</body>
+
+</html>

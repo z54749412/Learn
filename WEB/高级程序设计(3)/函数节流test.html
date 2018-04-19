@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        #dv {
+            background-color: skyblue;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="dv"></div>
+</body>
+<script>
+    var processor = {
+        timeoutId: null,
+        //实际执行处理方法
+        performProcessing: function() {
+            //实际执行代码
+        },
+        process: function() {
+            clearTimeout(this.timeoutId);
+            var that = this;
+            this.timeoutId = setTimeout(function() {
+                that.performProcessing();
+            }, 1000);
+        }
+    };
+    processor.process();
+    //简化
+    function throttle(method, context) {
+        clearTimeout(method.tId);
+        method.tId = setTimeout(function() {
+            method.call(context);
+        }, 100);
+    }
+
+    //事例
+    //没有节流改变会不停触发
+    var i = 0;
+    // window.onresize = function() {
+    //     var div = document.getElementById("dv");
+    //     div.style.height = div.offsetWidth + "px";
+
+    //     console.log(i);
+    //     i++;
+    // }
+
+
+    //有节流 会1秒执行一次
+    function resizeDiv() {
+        var div = document.getElementById("dv");
+        div.style.height = div.offsetWidth + "px";
+        console.log(i);
+        i++;
+    }
+    window.onresize = function() {
+        throttle(resizeDiv);
+    }
+</script>
+
+</html>

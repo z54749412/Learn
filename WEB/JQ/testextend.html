@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./jquery-3.3.1.js"></script>
+</head>
+<body>
+    <div id="app">
+        测试拓展方法
+    </div>
+    <div id="test2">
+        测试拓展方法2
+    </div>
+    <div id="test3">
+        测试拓展方法3
+    </div>
+<textarea id="test4"></textarea>
+    <script>
+        $(function(){
+            $.fn.extend({
+                "bold": function (size) { 
+                    return this.css({ fontWeight: "bold",fontSize: size }); 
+                }
+            });
+            $.fn.Fontcolor = function(color){
+                return this.css({ color: color }); 
+            }
+            $('#test2').Fontcolor("red");
+
+            var $blod = jQuery.fn.bold;
+            jQuery.fn.bold = function(size){
+                this.css({ color: "pink" });
+                $blod.call(this, size);
+            }
+            $('#app').bold(80);
+
+            var css = $.fn.css;
+            $.fn.css = function(option){
+                $(this).on('click', function(){
+                    console.log('test');
+                })
+                console.log(1);
+                css.call(this,option);
+            }
+            $('#test3').css({
+                color: 'skyblue',
+                fontSize: 50,
+                backGround: '#ccc'
+            });
+        });
+        var str = [
+                        {   
+                            address : "国家体育场游泳馆" ,
+                            contact_mobile : "13312345601", 
+                            contact_name : "联系人1" ,
+                            latitude : 39.993427 ,
+                            longitude : 116.395945, 
+                            seq: 0 ,
+                        },
+                        {   
+                            address : "卧龙小区219", 
+                            contact_mobile : "13312345602", 
+                            contact_name : "联系人2" ,
+                            latitude : 40.000467 ,
+                            longitude: 116.403267 ,
+                            seq: 1 
+                        } 
+                    ]
+    </script>
+</body>
+</html>
+

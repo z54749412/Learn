@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        class Book {
+            constructor(title,pages,isbn){
+                this.title = title;
+                this.pages = pages;
+                this.isbn = isbn;
+            }
+            printIsbn(){
+                console.log(this.isbn);
+            }
+        }
+        let book1 = new Book('hh', '12', 'zs');
+        console.log('book1.title:' + book1.title);
+        book1.printIsbn();
+        book1.title = 'kk';
+        console.log('book1.title:' + book1.title);
+        
+        // 继承
+        class ITBook extends Book{
+            constructor(title, pages, isbn, technology){
+                super(title, pages, isbn);
+                this.technology = technology;
+            }
+            printTechnology(){
+                console.log(this.technology);
+            }
+        }
+
+        let jsBook = new ITBook('js', '200', '123', 'Javascript');
+        console.log('jsBook.title:' + jsBook.title);
+        jsBook.printIsbn();
+        jsBook.printTechnology();
+    </script>
+</body>
+</html>

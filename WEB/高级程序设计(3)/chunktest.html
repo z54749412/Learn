@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="myDiv"></div>
+</body>
+<script>
+    function chunk(array, process, context) {
+        setTimeout(function() {
+            var item = array.shift();
+            process.call(context, item);
+            if (array.length > 0) {
+                setTimeout(arguments.callee, 100);
+            }
+        }, 100);
+    }
+    var data = [12, 123, 1234, 11, 22, 333, 4, 44, 555, 66, 777, 8888, 11111, 1234, 65757, 65856];
+
+    function printValue(item) {
+        var div = document.getElementById('myDiv');
+        div.innerHTML += item + '<br>';
+    }
+    chunk(data, printValue);
+    // chunk(data.concat(), printValue);
+    console.log(data);
+</script>
+
+</html>

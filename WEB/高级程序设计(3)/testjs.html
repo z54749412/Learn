@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>JS练习</title>
+        <script type="text/javascript">
+        	//alert("Hello JavaScript");
+        	//prompt("Hello","JavaScript");
+        	//prompt("Hello");
+        	//console.log("Hello JavaScript");//后台输出
+        	//document.write("Hello JavaScript");//文档打印输出，直接显示在页面中
+        	//var num=10;//声明一个变量并赋值10
+        	//console.log(num);
+        	//var userName;//申明一个装名字的变量
+        	//userName = prompt("请输入你的名字");
+        	//document.write(userName);
+        	//console.log(typeof );//typeof是用来检查字符类型的
+        	//var year = prompt("请输出出生年份");
+        	//var age = 2017 - year;
+        	//document.write("你的年龄是"+age+"岁");
+        	//for (var i = 4; i >= 1; i--) {
+        		
+        	//	for(var j = i*2-1; j <= 5; j++){
+        			
+        	//		document.write("*");
+
+        	//	}
+        	//	document.write("<br />");
+        	//};
+
+        	document.write("------------------<br />");
+        	 for(var i = 1; i<=5; i++) {   // 外层循环 5次数
+
+            // 外层每循环一次， i都会加1  
+
+            for( var j = i; j<=5; j++) {   //  内层循环  5次    5个星号
+
+                // j每次得到的值，就会大1， 越接近于 5  星星每次都会少 一个
+
+                document.write("*");   // 
+            }
+
+            document.write("<br />");
+        }
+         document.write("------------------<br />");
+        // for(var i = 0 ;i < 5 ;i++ ){
+        //     for(var j = 0 ; j < 5 - i - 1 ; j++){
+        //        document.write("&nbsp;");
+        //     }
+        //     for(var k = 0 ; k < 4*i + 1 ; k++){
+        //         document.write("*");
+        //     }
+        //     document.write("<br />");
+        // }
+        document.write("------------------<br />");
+        /*判断是否是闰年*/
+        // for(var i = 0 ; i < 4 ; i ++){
+        //     for(var j = 0 ; j < 4 - i - 1 ; j++){
+        //         document.write("&nbsp;");
+
+        //     }
+        //     for(var k = 0 ; k < 2*i+1 ; k++){
+        //         document.write("* ");
+        //     }
+        //     document.write(" <br />");
+        // }
+        // var year = prompt("请输入年份")
+        // if(year%4==0 && year%100!=0 || year%400==0){
+        //     document.write("该年是闰年");
+        // }
+        // else{
+        //     document.write("平年");
+        // }
+        
+        // document.write("<br />");
+        // var a ="1234";
+        // var c = isNaN(a);
+        // document.write(typeof c,c);
+        // document.write("<br />");
+        
+    
+        </script>
+    </head>
+    <body>
+    </body>
+</html>
