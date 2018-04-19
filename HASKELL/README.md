@@ -1,4 +1,13 @@
 ### Haskell
+>  Haskell（发音为/ˈhæskəl/）是一种标准化的，通用的纯函数程式语言，有非限定性语义和强静态类型。它的命名源自美国逻辑学家哈斯凯尔·加里，他在数理逻辑方面上的工作使得函数式编程语言有了广泛的基础。在Haskell中，“函数是第一类物件”。作为一门函数程式语言，主要控制结构是函数。Haskell语言是1990年在编程语言Miranda的基础上标准化的，并且以λ演算为基础发展而来。这也是为什么Haskell语言以希腊字母“λ”（Lambda）作为自己的标志。Haskell具有“证明即程序、命题为类型”的特征。 (引用自维基)
+
+--------------
+
+>  在纯种的函数式编程语言中，数据是不可变的，或者说没有变量这个概念，所有的数据一旦产生，就不能改变其中的值，如果要改变，那就只能生成一个新的数据。
+
+--------------
+
+>  这里粗略学习下haskell，主要为了理解下函数式编程思想。
 
 #### 下载
 >  apt-get install Haskell-platform  
@@ -359,7 +368,7 @@
 
 ` ！！！！！！ don‘t try [3,6..]   ！！！！！！！！`
 
->  List 的函数 cycle 接受一个 List 做参数并返回一个无限 List 。
+>  List 的函数 **cycle** 接受一个 List 做参数并返回一个无限 List 。
 
     ghci> take 10 (cycle [1,2,3])
 
@@ -368,5 +377,163 @@
     ghci> take 12 (cycle "LOL ")
 
     "LOL LOL LOL "  
+
+>  **repeat** 接受一个值作参数，并返回一个仅包含该值的无限 List。
+
+    ghci> take 10 (repeat 5)
+
+    [5,5,5,5,5,5,5,5,5,5]  
+
+` 如果只是想得到包含相同元素的 List ，使用 replicate 会更简单，如replicate 3 10，得[10,10,10]。`
+
+#### List Comprehension  
+` 本章见示例test01.hs`
+    ghci> [x*2 | x <- [1..10]]
+
+    [2,4,6,8,10,12,14,16,18,20]  
+
+    ghci> [x*2 | x <- [1..10], x*2 >= 12]
+
+    [12,14,16,18,20]  
+
+    ghci> [ x | x <- [50..100], x `mod` 7 == 3]
+
+    [52,59,66,73,80,87,94]
+
+#### Tuple
+
+>  从某种意义上讲，Tuple (元组)很像 List --都是将多个值存入一个个体的容器。但它们却有着本质的不同，一组数字的 List 就 是一组数字，它们的类型相同，且不关心其中包含元素的数量。而 Tuple 则要求你对需要组合的数据的数目非常的明确，它 的类型取决于其中项的数目与其各自的类型。Tuple 中的项由括号括起，并由逗号隔开。另外的不同之处就是 Tuple 中的项不必为同一类型，在 Tuple 里可以存入多态别项的组合。
+
+    Prelude> ("t",1)
+    
+    ("t",1)
+
+> **fst** 返回一个序对的首项。
+
+    ghci> fst (8,11)
+
+    8
+
+    ghci> fst ("Wow", False)
+
+    "Wow"  
+
+> **snd** 返回序对的尾项。
+
+    ghci> snd (8,11)
+
+    11
+
+    ghci> snd ("Wow", False)
+
+    False
+
+` Note：这两个函数仅对序对有效，而不能应用于三元组，四元组和五元组之上。稍后，我们将过一遍从 Tuple 中取数据的所有方式。`
+
+>  **zip** 它可以用来生成一组序对 (Pair) 的 List。它取两个 List，然后将它们交叉配对，形成一组序 对的 List。它很简单，却很实用，尤其是你需要组合或是遍历两个 List 时。如下是个例子：
+
+    ghci> zip [1,2,3,4,5] [5,5,5,5,5]
+
+    [(1,5),(2,5),(3,5),(4,5),(5,5)]
+
+    ghci> zip [1 .. 5] ["one", "two", "three", "four", "five"]
+
+    [(1,"one"),(2,"two"),(3,"three"),(4,"four"),(5,"five")]
+
+    ghci> zip [5,3,2,6,2,7,2,5,4,6,6] ["im","a","turtle"]
+
+    [(5,"im"),(3,"a"),(2,"turtle")]
+
+    ghci> zip [1..] ["apple", "orange", "cherry", "mango"]
+
+    [(1,"apple"),(2,"orange"),(3,"cherry"),(4,"mango")]
+
+#### Types and Typeclasses
+
+##### Type
+` Haskell 是 Static Type，这表示在编译时期每个表达式的类型都已经确定下来，这提高了代码的安全性。若 代码中有让布尔值与数字相除的动作，就不会通过编译。这样的好处就是与其让进程在运行时崩溃，不如在编译时就找出可 能的错误。Haskell 中所有东西都有类型。`
+------
+` 与 Java 和 Pascal 不同，Haskell 支持类型推导。写下一个数字，你就没必要另告诉 Haskell 说"它是个数字"，它自己能推导 出来。这样我们就不必在每个函数或表达式上都标明其类型了。在前面我们只简单涉及一下 Haskell 的类型方面的知识，但 是理解这一类型系统对于 Haskell 的学习是至关重要的。`
+
+> 可以使用 ghci 来检测表达式的类型。使用**:t**命令后跟任何可用的表达式，即可得到该表达式的类型
+
+    ghci> :t 'a'
+
+    'a' :: Char
+
+    ghci> :t True
+
+    True :: Bool
+
+    ghci> :t "HELLO!"
+
+    "HELLO!" :: [Char]
+
+    ghci> :t (True, 'a')
+
+    (True, 'a') :: (Bool, Char)
+
+    ghci> :t 4 == 5
+
+    4 == 5 :: Bool
+
+> 函数也有类型。编写函数时，给它一个明确的类型声明是个好习惯，比较短的函数就不用多此一举了。还记得前面那 个过滤大写字母的 List Comprehension 吗？给它加上类型声明便是这个样子：
+
+    removeNonUppercase :: [Char] -> [Char]
+
+    removeNonUppercase st = [ c | c <- st, c `elem` ['A'..'Z']]
+
+> 要是多个参数的函数
+
+    addThree :: Int -> Int -> Int -> Int
+
+    addThree x y z = x + y + z
+
+> **Integer** 表示...厄...也是整数，但它是无界的。这就意味着可以用它存放非常非常大的数，我是说非常大。它的效率不如 **Int** 高。
+
+    factorial :: Integer -> Integer
+
+    factorial n = product [1..n]
+
+    ghci> factorial 50
+
+    30414093201713378043612608166064768844377641568960512000000000000
+
+> **Float** 表示单精度的浮点数。
+
+    circumference :: Float -> Float
+
+    circumference r = 2 * pi * r
+
+    ghci> circumference 4.0
+
+    25.132742
+
+> **Double** 表示双精度的浮点数。
+
+    circumference' :: Double -> Double
+
+    circumference' r = 2 * pi * r
+
+    ghci> circumference' 4.0
+
+    25.132741228718345
+
+> **Bool** 表示布尔值，它只有两种值： True 和 。
+
+> **Char** 表示一个字符。一个字符由单引号括起，一组字符的 List 即为字符串。
+
+> **Tuple** 的类型取决于它的长度及其中项的类型。注意，空 Tuple 同样也是个类型，它只有一种值：()。
+
+    Prelude> :t ()
+
+    () :: ()
+
+    Prelude> :t (1,"t")
+
+    (1,"t") :: Num a => (a, [Char])
+
+##### Type variables
+
 
 
