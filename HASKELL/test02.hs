@@ -18,11 +18,3 @@ circumference' r = 2 * pi * r
 
 --ghci> circumference' 4.0
 --25.132741228718345
-
-lucky :: (Integral a) => a -> String
-
-lucky 7 = "LUCKY NUMBER SEVEN!"
-
-lucky 8 = "呀呀呀呀"
-
-lucky x = "Sorry, you're out of luck, pal!"

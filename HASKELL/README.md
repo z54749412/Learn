@@ -494,6 +494,8 @@
 
 > **Integer** 表示...厄...也是整数，但它是无界的。这就意味着可以用它存放非常非常大的数，我是说非常大。它的效率不如 **Int** 高。
 
+` 如test02.hs`
+
     factorial :: Integer -> Integer
 
     factorial n = product [1..n]
@@ -538,5 +540,209 @@
 
 ##### Type variables
 
+    ghci> :t head
+
+    head :: [a] -> a
+
+` 这里的 a 是个类型变量，意味着 a 可以是任意的类型。这一点与其他语言中的泛型 (generic) 很相似，但在 Haskell 中要更为强大。它可以让我们轻而易举地写出类型无关的函数。使用到类型变量的函数被称作"多态函数 "。`
+
+    ghci> :t fst
+
+    fst :: (a, b) -> a
+
+##### Typeclasses  
+
+> 类型定义行为的接口( 类型和类型类的组合 ),如果一个类型属于某 Typeclass，那它必实现了该 Typeclass 所描述的行为。从 OOP 角度分析 Typeclass 很像面向对象语言中的 class 。其实可以把它看做 是 Java 的 interface。
+
+` ==函数的类型声明是怎样的？`
+
+    ghci> :t (==)
+
+    (==) :: (Eq a) => a -> a -> Bool
+
+` Note: 判断相等的 == 运算符是函数，'+-*/'之类的运算符也是同样。在缺省条件下，它们多为中缀函数。若要检查它的类型，就必须得用括号括起使之作为另一个函数，或者说以首码函数的形式调用它。`
+
+    ghci> 5 == 5
+
+    True
+
+    ghci> 5 /= 5
+
+    False
+
+    ghci> 'a' == 'a'
+
+    True
+
+    ghci> "Ho Ho" == "Ho Ho"
+
+    True
+
+    ghci> 3.432 == 3.432
+
+    True
+
+> **Eq** 包含可判断相等性的类型。提供实现的函数是 == 和 /= 。所以，只要一个函数有Eq类的类型限制，那么它就必定在定 义中用到了 == 和 /= 。刚才说了，除函数以外的所有类型都属于 Eq ，所以它们都可以判断相等性。
 
 
+
+> **Ord** 包含可比较大小的类型。除了函数以外，我们目前所谈到的所有类型都属于 Ord 类。Ord 包中包含了 <, >, <=, >= 之类用于比较大小的函数。 compare 函数取两个 Ord 类中的相同类型的值作参数，回传比较的结果。这个结果是如下三种类型之一：GT, LT, EQ。
+
+    ghci> :t (>)
+
+    (>) :: (Ord a) => a -> a -> Bool
+
+    ghci> "Abrakadabra" < "Zebra"
+
+    True
+
+    ghci> "Abrakadabra" `compare` "Zebra"
+
+    LT
+
+    ghci> 5 >= 2
+
+    True
+
+    ghci> 5 `compare` 3
+
+    GT
+
+> **Show** 的成员为可用字符串表示的类型。目前为止，除函数以外的所有类型都是 Show 的成员。操作 Show Typeclass，最常用的函数表示 show 。它可以取任一Show的成员类型并将其转为字符串。
+
+    ghci> show 3
+
+    "3"
+
+    ghci> show 5.334
+
+    "5.334"
+
+    ghci> show True
+
+    "True"
+
+> **Read** 是与Show相反的 Typeclass。read函数可以将一个字符串转为Read的某成员类型。
+
+    ghci> read "True" || False
+
+    True
+
+    ghci> read "8.2" + 3.8
+
+    12.0
+
+    ghci> read "5" - 2
+
+    3
+
+    ghci> read "[1,2,3,4]" ++ [3]
+
+    [1,2,3,4,3]
+
+---------------------------
+
+    ghci> read "4"
+
+    < interactive >:1:0:
+
+    Ambiguous type variable `a' in the constraint:
+
+    `Read a' arising from a use of `read' at <interactive>:1:0-7
+
+    Probable fix: add a type signature that fixes these type variable(s)
+
+` ghci 跟我们说它搞不清楚我们想要的是什么样的回传值。注意调用 read 后跟的那部分，ghci 通过它来辨认其类型。若要一 个 boolean 值，他就知道必须得回传一个 Bool 类型的值。但在这里它只知道我们要的类型属于 Read Typeclass，而不能 明确到底是哪个。看一下 read 函数的类型声明吧：`
+
+    ghci> :t read
+
+    read :: (Read a) => String -> a
+
+` 看，它的回传值属于 ReadTypeclass，但我们若用不到这个值，它就永远都不会得知该表达式的类型。所以我们需要在一个 表达式后跟 :: 的类型注释，以明确其类型。如下：`
+
+    ghci> read "5" :: Int
+
+    5
+
+    ghci> read "5" :: Float
+
+    5.0
+
+    ghci> (read "5" :: Float) * 4
+
+    20.0
+
+    ghci> read "[1,2,3,4]" :: [Int]
+
+    [1,2,3,4]
+
+    ghci> read "(3, 'a')" :: (Int, Char)
+
+    (3, 'a')
+
+` 编译器可以辨认出大部分表达式的类型，但遇到 read "5" 的时候它就搞不清楚究竟该是 Int 还是 Float 了。只有经过运算， Haskell 才会明确其类型；同时由于 Haskell 是静态的，它还必须得在 编译前搞清楚所有值的类型。所以我们就最好提前给 它打声招呼："嘿，这个表达式应该是这个类型，省的你认不出来！"`
+
+> **Enum** 的成员都是连续的类型 -- 也就是可枚举。 Enum 类存在的主要好处就在于我们可以在 Range 中用到它的成员类型： 每个值都有后继子 (successer) 和前置子 (predecesor)，分别可以通过 succ 函数和 pred 函数得到。该 Typeclass 包含的 类型有： () , Bool , Char , Ordering , Int , Integer , Float 和 Double 。
+
+    ghci> ['a'..'e']
+
+    "abcde"
+
+    ghci> [LT .. GT]
+
+    [LT,EQ,GT]
+
+    ghci> [3 .. 5]
+
+    [3,4,5]
+
+    ghci> succ 'B'
+
+    'C'
+
+> **Bounded** 的成员都有一个上限和下限。
+
+    ghci> minBound :: Int
+
+    -2147483648
+
+    ghci> maxBound :: Char
+
+    '\1114111'
+
+    ghci> maxBound :: Bool
+
+    True
+
+    ghci> minBound :: Bool
+
+    False
+
+    ghci> maxBound :: (Bool, Int, Char)
+
+    (True,2147483647,'\1114111')
+
+> **Num** 是表示数字的 Typeclass，它的成员类型都具有数字的特征。检查一个数字的类型：
+
+    ghci> :t 20
+
+    20 :: (Num t) => t
+
+> **Integral** 同样是表示数字的 Typeclass。Num 包含所有的数字：实数和整数。而 Integral 仅包含整数，其中的成员类型有 Int 和 Integer 。
+
+> **Floating** 仅包含浮点类型：Float和Double。
+
+` 有个函数在处理数字时会非常有用，它便是 fromIntegral。其类型声明为： fromIntegral :: (Num b, Integral a) => a -> b 。从中可以看出，它取一个整数做参数并回传一个更加通用的数字，这在同时处理整数和浮点时会尤为有用。举例来说，函数的类型声明为： length :: [a] -> Int ，而非更通用的形式，如 length :: (Num b) => [a] -> b 。这应该 是历史原因吧，反正我觉得挺蠢。如果取了一个 List 长度的值再给它加 3.2 就会报错，因为这是将浮点数和整数相加。面对length这种情况，我们就 fromIntegral (length [1,2,3,4]) + 3.2来解决。注意到，fromIntegral的类型声明中用到了多个类型约束。如你所见，只要将多个类型约束放到括号里用逗号隔开即可。`
+
+#### 函数的语法
+
+##### 模式匹配 (Pattern matching)
+
+` 模式匹配通过检查数据的特定结构来检查其是否匹配，并 按模式从中取得数据。`
+
+> 在定义函数时，你可以为不同的模式分别定义函数本身，这就让代码更加简洁易读。你可以匹配一切数据类型 --- 数字，字 符，List，元组，等等。我们弄个简单函数，让它检查我们传给它的数字是不是 7。
+` (如：test03.hs)`
+
+#### Guards
+
+> 模式用来检查一个值是否合适并从中取值，而 guard 则用来检查一个值的某项属性是否为真。咋一听有点像是 际上也正是如此。不过处理多个条件分支时 guard 的可读性要高些，并且与模式匹配契合的很好。
