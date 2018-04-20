@@ -743,6 +743,92 @@
 > 在定义函数时，你可以为不同的模式分别定义函数本身，这就让代码更加简洁易读。你可以匹配一切数据类型 --- 数字，字 符，List，元组，等等。我们弄个简单函数，让它检查我们传给它的数字是不是 7。
 ` (如：test03.hs)`
 
-#### Guards
+##### Guards
 
 > 模式用来检查一个值是否合适并从中取值，而 guard 则用来检查一个值的某项属性是否为真。咋一听有点像是 际上也正是如此。不过处理多个条件分支时 guard 的可读性要高些，并且与模式匹配契合的很好。
+
+>> guard 由跟在函数名及参数后面的竖线标志，通常他们都是靠右一个缩进排成一列。一个 guard 就是一个布尔表达式，如果 为真，就使用其对应的函数体。如果为假，就送去见下一个 guard
+
+` 示例：test04.hs`
+
+> 最后的那个 guard 往往都是 otherwise ，它的定义就是简单一个 otherwise = True ，捕获一切。这与模式很相像，只是模 式检查的是匹配，而它们检查的是布尔表达式 。如果一个函数的所有 guard 都没有通过(而且没有提供 otherwise 作万能匹配)，就转入下一模式。这便是 guard 与模式契合的地方。如果始终没有找到合适的 guard 或模式，就会发生一个错误。
+
+
+##### Where
+
+    bmiTell :: (RealFloat a) => a -> a -> String
+
+    bmiTell weight height
+
+        | weight / height ^ 2 <= 18.5 = "You're underweight, you emo, you!"
+
+        | weight / height ^ 2 <= 25.0 = "You're supposedly normal. Pffft, I bet you're ugly!"
+
+        | weight / height ^ 2 <= 30.0 = "You're fat! Lose some weight, fatty!"
+
+        | otherwise = "You're a whale, congratulations!"
+
+` 上面代码块 weight / height ^ 2 部分重复了3次，所以用where做出如下优化`
+
+    bmiTell :: (RealFloat a) => a -> a -> String
+
+    bmiTell weight height
+
+        | bmi <= 18.5 = "You're underweight, you emo, you!"
+
+        | bmi <= 25.0 = "You're supposedly normal. Pffft, I bet you're ugly!"
+
+        | bmi <= 30.0 = "You're fat! Lose some weight, fatty!"
+
+        | otherwise = "You're a whale, congratulations!"
+
+        where bmi = weight / height ^ 2
+
+` 我们的 where 关键字跟在 guard 后面(最好是与竖线缩进一致)，可以定义多个名字和函数。这些名字对每个 guard 都是可 见的，这一来就避免了重复。如果我们打算换种方式计算 bmi ，只需进行一次修改就行了。通过命名，我们提升了代码的可 读性，并且由于 bmi 只计算了一次，函数的运行效率也有所提升。我们可以再做下修改：`
+
+    bmiTell :: (RealFloat a) => a -> a -> String
+
+    bmiTell weight height
+
+        | bmi <= skinny = "You're underweight, you emo, you!"
+
+        | bmi <= normal = "You're supposedly normal. Pffft, I bet you're ugly!"
+
+        | bmi <= fat = "You're fat! Lose some weight, fatty!"
+
+        | otherwise = "You're a whale, congratulations!"
+
+        where   bmi = weight / height ^ 2
+
+                skinny = 18.5
+
+                normal = 25.0
+
+                fat = 30.0
+
+` 函数在 where 绑定中定义的名字只对本函数可见，因此我们不必担心它会污染其他函数的命名空间。注意，其中的名字都 是一列垂直排开，如果不这样规范，Haskell 就搞不清楚它们在哪个地方了。`
+
+` 上面where部分可继续优化为`
+
+    where   bmi = weight / height ^ 2
+
+            (skinny, normal, fat) = (18.5, 25.0, 30.0)
+
+
+
+##### Let
+
+> let 绑定与 where 绑定很相似。 where 绑定是在函数底部定义名字，对包括所有 guard 在内的整个函数可见。 let 绑定 则是个表达式，允许你在任何位置定义局部变量，而对不同的 guard 不可见。正如 Haskell 中所有赋值结构一样， let 绑定 也可以使用模式匹配。看下它的实际应用！这是个依据半径和高度求圆柱体表面积的函数：
+
+    cylinder :: (RealFloat a) => a -> a -> a
+
+    cylinder r h =
+
+        let sideArea = 2 * pi * r * h
+
+            topArea = pi * r ^2
+
+        in  sideArea + 2 * topArea
+
+        
+
