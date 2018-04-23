@@ -831,4 +831,289 @@
         in  sideArea + 2 * topArea
 
         
+> let 的格式为 let [bindings] in [expressions] 。在 let 中绑定的名字仅对 in 部分可见。 let 里面定义的名字也得对齐到一列。不难看出，这用 where 绑定也可以做到。那么它俩有什么区别呢？看起来无非就是， let 把绑定放在语句前面而 where 放在后面嘛。 不同之处在于， let 绑定本身是个表达式，而 where 绑定则是个语法结构。还记得前面我们讲if语句时提到它是个表达式，因而可以随处安放？
+
+    ghci> [if 5 > 3 then "Woo" else "Boo", if 'a' > 'b' then "Foo" else "Bar"]
+
+    ["Woo", "Bar"]
+
+    ghci> 4 * (if 10 > 5 then 10 else 0) + 2
+
+    42
+
+` 用 let 绑定也可以实现：`
+
+    ghci> 4 * (let a = 9 in a + 1) + 2
+
+    42
+
+> let 也可以定义局部函数：
+
+    ghci> [let square x = x * x in (square 5, square 3, square 2)]
+
+    [(25,9,4)]
+
+> 若要在一行中绑定多个名字，再将它们排成一列显然是不可以的。不过可以用分号将其分开。
+
+    ghci> (let a = 100; b = 200; c = 300 in a*b*c, let foo="Hey "; bar = "there!" in foo ++ bar)
+
+    (6000000,"Hey there!")
+
+> 最后那个绑定后面的分号不是必须的，不过加上也没关系。如我们前面所说，你可以在 let 绑定中使用模式匹配。这在从 Tuple 取值之类的操作中很方便。
+
+    ghci> (let (a,b,c) = (1,2,3) in a+b+c) * 100
+
+    600
+
+> 你也可以把 let 绑定放到 List Comprehension 中。我们重写下那个计算 bmi 值的函数，用个 let 替换掉原先的 where 。
+
+    calcBmis :: (RealFloat a) => [(a, a)] -> [a]
+
+    calcBmis xs = [bmi | (w, h) <- xs, let bmi = w / h ^ 2]
+
+> List Comprehension 中 let 绑定的样子和限制条件差不多，只不过它做的不是过滤，而是绑定名字。let 中绑定的名字在输出函数及限制条件中都可见。这一来我们就可以让我们的函数只返回胖子的 bmi 值：
+
+    calcBmis :: (RealFloat a) => [(a, a)] -> [a]
+
+    calcBmis xs = [bmi | (w, h) <- xs, let bmi = w / h ^ 2, bmi >= 25.0]
+
+` 在 (w, h) <- xs 这里无法使用 bmi 这名字，因为它在 let 绑定的前面。`
+
+> 在 List Comprehension 中我们忽略了 let 绑定的 in 部分，因为名字的可见性已经预先定义好了。不过，把一个 let...in 放到限制条件中也是可以的，这样名字只对这个限制条件可见。在 ghci 中 in 部分也可以省略，名字的定义就在 整个交互中可见。
+
+    ghci> let zoot x y z = x * y + z
+
+    ghci> zoot 3 9 2
+
+    29
+
+    ghci> let boot x y z = x * y + z in boot 3 4 2
+
+    14
+
+    ghci> boot
+
+    < interactive>:1:0: Not in scope: `boot'
+
+` 你说既然 let 已经这么好了，还要 where 干嘛呢？嗯， let 是个表达式，定义域限制的相当小，因此不能在多个 guard 中使用。一些朋友更喜欢 where ，因为它是跟在函数体后面，把主函数体距离类型声明近一些会更易读。`
+
+##### Case expressions
+
+    head' :: [a] -> a
+
+    head' [] = error "No head for empty lists!"
+
+    head' (x:_) = x
+
+---
+
+    head' :: [a] -> a
+
+    head' xs = case xs of [] -> error "No head for empty lists!"
+
+    (x:_) -> x
+
+> case表达式的语法结构:
+
+    case expression of pattern -> result
+
+    pattern -> result
+
+    pattern -> result
+
+    ...
+
+` expression 匹配合适的模式。 一如预期地，第一个模式若匹配，就运行第一个区块的代码；否则就接下去比对下一个模式。 如果到最后依然没有匹配的模式，就会产生运行时错误。`
+
+> 函数参数的模式匹配只能在定义函数时使用，而 case 表达式可以用在任何地方。例如：
+
+    describeList :: [a] -> String
+
+    describeList xs = "The list is " ++ case xs of [] -> "empty."
+
+    [x] -> "a singleton list."
+
+    xs -> "a longer list."
+
+> 这在表达式中作模式匹配很方便，由于模式匹配本质上就是 case 表达式的语法糖，那么写成这样也是等价的：
+
+    describeList :: [a] -> String
+
+    describeList xs = "The list is " ++ what xs
+
+    where what [] = "empty."
+
+    what [x] = "a singleton list."
+
+    what xs = "a longer list."
+
+
+#### 递归
+
+> 递归实际上是定义函数以调用自身的方式。
+
+>>  递归在 Haskell 中非常重要。命令式语言要求你提供求解的步骤，Haskell 则倾向于让你提供问题的描述。这便是 Haskell 没有 while 或 for 循环的原因，递归是它的替代方案。
+
+> 实作 Maximum 
+
+` maximum 函数取一组可排序的 List（属于 Ord Typeclass） 做参数，并回传其中的最大值。想想，在命令式风格中这一函数 该怎么实现。很可能你会设一个变量来存储当前的最大值，然后用循环遍历该 List，若存在比这个值更大的元素，则修改变 量为这一元素的值。到最后，变量的值就是运算结果。`
+
+` 现在看看递归的思路是如何：我们先定下一个边界条件，即处理单个元素的 List 时，回传该元素。如果该 List 的头部大于尾 部的最大值，我们就可以假定较长的 List 的最大值就是它的头部。而尾部若存在比它更大的元素，它就是尾部的最大值。就 这么简单！现在，我们在 Haskell 中实现它(如test06.hs)`
+
+> 使用 max 函数实现求最大值递归
+
+    maximum' :: (Ord a) => [a] -> a
+
+    maximum' [] = error "maximum of empty list"
+
+    maximum' [x] = x
+
+    maximum' (x:xs) = max x (maximum' xs)
+` 我们取个 List [2,5,1] 做例子来看看它的工作原理。当调用 maximum' 处理它时，前两个模式不会被匹配，而第三个模式匹 配了它并将其分为 2 与 [5,1] 。 where 子句再取 [5,1] 的最大值。于是再次与第三个模式匹配，并将 [5,1] 分割为 5 和 [1] 。继续， where 子句取 [1] 的最大值，这时终于到了边缘条件！回传 1 。进一步，将 5 与 [1] 中的最大值做比较，易得 5 ，现在我们就得到了[5,1] 的最大值。再进一步，将 2 与 [5,1] 中的最大值相比较，可得 5 更大，最终得 5 。`
+
+![recursion](./recursion.jpg)
+
+--------------------
+
+> "快速"排序
+
+` 假定我们有一个可排序的 List, 其中元素的类型为 Ord Typeclass 的成员. 现在我们要给它排序! 有个排序算法非常的酷, 就是 快速排序 (quick sort), 睿智的排序方法. 尽管它在命令式语言中也不过 10 行, 但在 Haskell 下边要更短, 更漂亮, 俨然已经成了 Haskell 的招牌了. 嗯, 我们在这里也实现一下. 或许会显得很俗气, 因为每个人都用它来展示 Haskell 究竟有多优雅!`
+
+` 它的类型声明应为 quicksort :: (Ord a) => [a] -> [a] , 没啥奇怪的. 边界条件呢? 如料，空 List。排过序的空 List 还是空 List。接下来便是算法的定义：排过序的 List 就是令所有小于等于头部的元素在先(它们已经排过了序), 后跟大于头部的元素(它们同样已经拍过了序)。 注意定义中有两次排序，所以就得递归两次！同时也需要注意算法定义的动词为"是"什么而 非"做"这个, "做"那个, 再"做"那个...这便是函数式编程之美！如何才能从 List 中取得比头部小的那些元素呢？List Comprehension。好，动手写出这个函数！`
+
+    quicksort :: (Ord a) => [a] -> [a]
+
+    quicksort [] = []
+
+    quicksort (x:xs) =
+
+        let smallerSorted = quicksort [a | a <- xs, a <= x]
+
+            biggerSorted = quicksort [a | a <- xs, a > x]
+
+        in smallerSorted ++ [x] ++ biggerSorted
+
+
+##### 用递归来思考
+
+> 递归固定模式：先定义一个边界条件，再定义个函数，让它从一堆元素中取一个并做点事情后，把余下的元素重新交给这个函数。 这一模式对 List、Tree 等数据结构都是适用的。例如， sum 函数就 是一个 List 头部与其尾部的 sum 的和。一个 List 的积便是该 List 的头与其尾部的积相乘的积，一个 List 的长度就是 1 与其 尾部长度的和.
+
+> 再者就是边界条件。一般而言，边界条件就是为避免进程出错而设置的保护措施，处理 List 时的边界条件大部分都是空 List，而处理 Tree 时的边界条件就是没有子元素的节点。
+
+> 处理数字时也与之相似。函数一般都得接受一个值并修改它。早些时候我们编写过一个计算 Factorial 的函数，它便是某数与 它减一的 Factorial 数的积。让它乘以零就不行了， Factorial 数又都是非负数，边界条件便可以定为 1，即乘法的单比特。 因为任何数乘以 1 的结果还是这个数。而在 sum 中，加法的单比特就是 0。在快速排序中，边界条件和单比特都是空 List， 因为任一 List 与空 List 相加的结果依然是原 List。
+
+> 使用递归来解决问题时应当先考虑递归会在什么样的条件下不可用, 然后再找出它的边界条件和单比特, 考虑参数应该在何时 切开(如对 List 使用模式匹配), 以及在何处运行递归.
+
+##### 高端函数
+
+> Haskell 中的函数可以接受函数作为参数也可以返回函数作为结果，这样的函数就被 称作高端函数。高端函数可不只是某简单特性而已，它贯穿于 Haskell 的方方面面。要拒绝循环与状态的改变而通过定义问题"是什么"来解决问题，高端函数必不可少。它们是编码的得力工具。
+
+###### Curried functions
+
+> 本质上，Haskell 的所有函数都只有一个参数，所有多个参数的函数都是 Curried functions(柯里化函数)。
+
+` 实际上，运行 max 4 5 时，它会首先回传一个取一个参数的函数，其回传值不是 4 就是该参数，取决于谁大。 然后，以 5 为参数调用它，并取得最终结果。如：`
+
+    ghci> max 4 5
+
+    5
+
+    ghci> (max 4) 5
+
+    5
+
+> 把空格放到两个东西之间，称作函数调用。它有点像个运算符，并拥有最高的优先级。 max 函数的类型: max :: (Orda) => a -> a -> a 。 也可以写作: max :: (Ord a) => a -> (a -> a) 。可以读作 max 取一个参数函数的类型: max :: (Ord a ，并回传一个函数(就是那个 -> )，这个函数取一个 a 类型的参数，回传一个 a 。 这便是为何只用箭头来分隔参数和回传值类型。
+
+` 这样做的好处： 我们若以不全的参数来调用某函数，就可以得到一个不全调用的函数。 如果你高兴，构造新 函数就可以如此便捷，将其传给另一个函数也是同样方便。`
+
+    multThree :: (Num a) => a -> a -> a -> a
+
+    multThree x y z = x * y * z
+
+` 我们若运行 mulThree 3 5 9 或 ((mulThree 3) 5) 9 ，它背后是如何运作呢？ 首先，按照空格分隔，把 3 交给 mulThree 。 这回传一个回传函数的函数。 然后把 5 交给它，回传一个取一个参数并使之乘以 15 的函数。 最后把 9 交给这一函数，回传 135。这个函数的类型也可以写作 multThree :: (Num a) => a -> (a -> (a -> a)) ， -> 前面的东西就是函数取的参数，后面的东西就是其回传值。所以说，我们的函数取一个 a ，并回传一个类型为 (Num a) => a -> (a -> a) 的函数，类似，这一函数回传一个取一个 a ，回传一个类型为 (Num a) => a -> a 的函数。 而最后的这个函数就只 取一个 a 并回传一个 a ，如下:` 
+
+    ghci> let multTwoWithNine = multThree 9
+
+    ghci> multTwoWithNine 2 3
+
+    54
+
+    ghci> let multWithEighteen = multTwoWithNine 2
+
+    ghci> multWithEighteen 10
+
+    180
+
+----------
+    let a = max 4
+
+    a 5
+
+    5
+
+    a 3
+
+    4
+
+-----------
+
+` 以不全的参数调用函数可以方便地创造新的函数。例如，搞个取一数与 100 比较大小的函数该如何? 大可这样:`
+
+    compareWithHundred :: (Num a, Ord a) => a -> Ordering
+
+    compareWithHundred x = compare 100 x
+
+` 用 99 调用它，就可以得到一个 GT 。 简单。 注意下在等号两边都有x。 想想compare 100会回传什么？一个取一数与100 比较的函数。这样重写:`
+
+    compareWithHundred :: (Num a, Ord a) => a -> Ordering
+
+    compareWithHundred = compare 100
+
+` 类型声明依然相同，因为 compare 100 回传函数。 compare 的类型为 (Ord a) => a -> (a -> Ordering) ，用 100 调用它后 回传的函数类型为 (Num a, Ord a) => a -> Ordering ，同时由于 100 还是 Num 类型类的实例，所以还得另留一个类约束。`
+
+-------------------
+
+` 中缀函数也可以不全调用，用括号把它和一边的参数括在一起就行了。 这回传一个取一参数并将其补到缺少的那一端的函 数。 一个简单函数如下: `
+
+    divideByTen :: (Floating a) => a -> a
+
+    divideByTen = (/10)
+
+` 调用divideByTen 200就是(/10) 200，和200 / 10等价。`
+
+> **Haskell 中的函数可以取另一个函数做参数，也可以回传函数。**
+
+------
+
+    applyTwice :: (a -> a) -> a -> a
+
+    applyTwice f x = f (f x)
+
+` 这个函数是相当的简单，就拿参数 f 当函数，用 x 调用它得到的结果再去调用它。`
+
+    ghci> applyTwice (+3) 10
+
+    16
+
+    ghci> applyTwice (++ " HAHA") "HEY"
+
+    "HEY HAHA HAHA"
+
+    ghci> applyTwice ("HAHA " ++) "HEY"
+
+    "HAHA HAHA HEY"
+
+    ghci> applyTwice (multThree 2 2) 9
+
+    144
+
+    ghci> applyTwice (3:) [1]
+
+    [3,3,1]
+
+-----------
+
+` 首先注意这类型声明。 在此之前我们很少用到括号，因为 (->) 是自然的右结合，不过在这里括号是必须的。 它标明了首 个参数是个参数与回传值类型都是a的函数，第二个参数与回传值的类型也都是a。 我们可以用 Curried functions 的思路来理 解这一函数，不过免得自寻烦恼，我们姑且直接把它看作是取两个参数回传一个值，其首个参数是个类型为 (a->a) 的函数, 第二个参数是个 a 。 该函数的类型可以是 (Int->Int) ，也可以是 (String->String) ，但第二个参数必须与之一致。`
+
+>> *Note*: 现在开始我们会直说某函数含有多个参数(除非它真的只有一个参数)。 以简洁之名，我们会说 \`\`(a->a->a)\`\` 取两个参数，尽管我们知道它在背后做的手脚.
 
