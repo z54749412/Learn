@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // 1.定义log，然后它可以代理console.log的方法
+
+        function log1(msg) {
+            console.log(msg);
+        }
+
+        // 2.传入多个参数,强调传入参数的个数是不定的
+        // es6 解构赋值
+        function log2(...a) {
+            console.log.apply(console, a);
+        }
+        // es5 arguments
+        function log3() { 
+            console.log.apply(console, arguments); 
+        }
+    </script>
+</body>
+
+</html>

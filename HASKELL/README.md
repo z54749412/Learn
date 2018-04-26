@@ -1117,3 +1117,34 @@
 
 >> *Note*: 现在开始我们会直说某函数含有多个参数(除非它真的只有一个参数)。 以简洁之名，我们会说 \`\`(a->a->a)\`\` 取两个参数，尽管我们知道它在背后做的手脚.
 
+    ghci> applyTwice (+3) 10
+
+    16
+
+    ghci> applyTwice (++ " HAHA") "HEY"
+
+    "HEY HAHA HAHA"
+
+    ghci> applyTwice ("HAHA " ++) "HEY"
+
+    "HAHA HAHA HEY"
+
+    ghci> applyTwice (multThree 2 2) 9
+
+    144
+
+    ghci> applyTwice (3:) [1]
+
+    [3,3,1]
+
+> 高端函数的编程思想来实现个标准库中的函数 zipWith 它取一个函数和两个 List 做参数，并把两个 List 交到一起(使相应的元素去调用该函数)。 如下:
+
+    zipWith' :: (a -> b -> c) -> [a] -> [b] -> [c]
+
+    zipWith' _ [] _ = []
+
+    zipWith' _ _ [] = []
+
+    zipWith' f (x:xs) (y:ys) = f x y : zipWith' f xs ys
+
+
