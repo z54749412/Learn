@@ -32,6 +32,7 @@
 
             var $blod = jQuery.fn.bold;
             jQuery.fn.bold = function(size){
+                console.log(this);
                 this.css({ color: "pink" });
                 $blod.call(this, size);
             }
