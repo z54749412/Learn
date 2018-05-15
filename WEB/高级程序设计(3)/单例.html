@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        var Singleton = (function () {
+            var instantiated;
+
+            function init() {
+                /*这里定义单例代码*/
+                return {
+                    publicMethod: function () {
+                        console.log('hello world');
+                    },
+                    publicProperty: 'test'
+                };
+            }
+
+            return {
+                getInstance: function () {
+                    if (!instantiated) {
+                        instantiated = init();
+                    }
+                    return instantiated;
+                }
+            };
+        })();
+
+        /*调用公有的方法来获取实例:*/
+        Singleton.getInstance().publicMethod();
+    </script>
+</body>
+
+</html>

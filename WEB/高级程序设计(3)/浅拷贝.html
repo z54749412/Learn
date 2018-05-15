@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        /* 浅拷贝 */
+        function extend(parent, child) {
+            var i;
+            child = child || {};
+            for (i in parent) {
+                if (parent.hasOwnProperty(i)) {
+                    child[i] = parent[i];
+                }
+            }
+            return child;
+        }
+
+        var dad = {
+            name: "Adam"
+        };
+        var kid = extend(dad);
+        console.log(kid.name); // "Adam"
+
+        var dad = {
+            counts: [1, 2, 3],
+            reads: {
+                paper: true
+            }
+        };
+        var kid = extend(dad);
+        kid.counts.push(4);
+        console.log(dad.counts.toString()); // "1,2,3,4"
+        console.log(dad.reads === kid.reads); // true
+    </script>
+</body>
+
+</html>

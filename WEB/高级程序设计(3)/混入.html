@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        function mix() {
+            var arg, prop, child = {};
+            for (arg = 0; arg < arguments.length; arg += 1) {
+                for (prop in arguments[arg]) {
+                    if (arguments[arg].hasOwnProperty(prop)) {
+                        child[prop] = arguments[arg][prop];
+                    }
+                }
+            }
+            return child;
+        }
+
+        var cake = mix({
+            eggs: 2,
+            large: true
+        }, {
+            butter: 1,
+            salted: true
+        }, {
+            flour: '3 cups'
+        }, {
+            sugar: 'sure!'
+        });
+
+        console.log(cake);
+    </script>
+</body>
+
+</html>
