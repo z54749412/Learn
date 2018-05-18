@@ -10,6 +10,48 @@
     <script>
         // 不引用全局变量实现
         (function Fib(n) { return n < 2 ? n : (Fib(n - 1) + Fib(n - 2)); }(10))
+        // 斐波那契优化
+        function fib(n) {
+            if (n < 2) {
+                return 1;
+            }
+            var a = 1, b = 1;
+            for (var i = 2; i < n - 1 ;i++ ) {
+                b = a + b;
+                a = b - a;
+            }
+            return a + b;
+        }
+        console.log(fib(1000));
+        //另一种优化
+        function fib2(n) {
+            let rusult = [0,1];
+            if(n < 2){
+                return result[n];
+            }
+            let fibone = 1;
+            let fibtwo = 0;
+            let fibn = 0;
+            for(let i = 2; i <= n; i++){
+                fibn = fibone + fibtwo;
+                fibtwo = fibone;
+                fibone = fibn;
+            }
+            return fibn;
+        }
+        console.log(fib2(1000));
+        // 多次调用 复用版
+        var IterMemoFib = function() {
+            var cache = [1, 1];
+            return function (n) {
+                if (n >= cache.length) {
+                    for (var i = cache.length; i < n ; i++ ) {
+                        cache[i] = cache[i - 2] + cache[i - 1];
+                    }
+                }
+                return cache[n - 1];
+            }
+        }();
     </script>
 </body>
 </html>
