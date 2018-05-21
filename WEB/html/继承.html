@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        function Father(name,age) {
+            this.name = name;
+            this.age = age;
+        }
+        Father.prototype.say = function(){
+            console.log(this.name);
+        }
+        function Son(name,age,sex){
+            Father.call(this,name,age);
+            this.sex = sex;
+        }
+        Son.prototype = Object.create(Father.prototype);
+        Son.prototype.constructor = Son;
+        var xh = new Son('小红', 18,'女');
+    </script>
+</body>
+</html>

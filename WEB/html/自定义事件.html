@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <button id="dv">自定义弹出事件</button>
+    <button id="btn">测试stopImmediatepropagation</button>
+    <script>
+        var dv = document.getElementById('dv');
+        // 自定义事件
+        var eve = new Event('custome');
+        dv.addEventListener('custome',function(){
+            console.log
+        })
+        dv.dispatchEvent(eve);
+
+        btn.addEventListener('click',function(event){
+            alert('第一次触发！');
+            event.stopImmediatePropagation();
+            // 有该属性后 后面的alert不会再被触发
+        })
+        btn.addEventListener('click',function(){
+            alert('第二次触发！');
+        })
+    </script>
+</body>
+</html>

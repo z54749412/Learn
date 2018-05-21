@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        /* 方法1：定位 */
+
+        /* div {
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            margin: auto;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            background-color: pink;
+        } */
+
+        /* div {
+            position: absolute;
+            width:300px;
+            height:300px;
+            top: 50%;
+            left: 50%;
+            margin: -150px 0 0 -150px;
+            background-color: pink;
+        } */
+
+        /* div {
+            position: absolute;
+            width:500px;
+            height:300px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: pink;
+        } */
+
+        /* 利用 flex 布局
+ 实际使用时应考虑兼容性 */
+
+        .container {
+            height: 600px;
+            display: flex;
+            align-items: center;
+            /* 垂直居中 */
+            justify-content: center;
+            /* 水平居中 */
+        }
+
+        .container div {
+            width: 100px;
+            height: 100px;
+            background-color: pink;
+        }
+
+
+    /*  css
+        .bb{
+            background-color:red;所有识别
+  	      background-color:#00deff\9; IE6、7、8识别
+  	      +background-color:#a200ff;IE6、7识别
+  	      _background-color:#1e0bd1;IE6识别
+        }
+    */
+    </style>
+</head>
+
+<body>
+    <div>
+
+    </div>
+    <div class="container">
+        <div></div>
+    </div>
+</body>
+
+</html>
