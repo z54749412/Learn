@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        {{message}}
+        <p>
+            {{obj.b}}
+        </p>
+    </div>
+<script>
+ var vm = new Vue({
+     el: '#app',
+     data: {
+        message: [1,2,3],
+        obj: {
+        }
+     }
+ });
+// vm.$data.message.push(4);
+vm.$data.obj.b = 2;
+
+// 只有 状态的流转才会触发页面重新渲染，而不是值的变化
+</script>
+</body>
+</html>

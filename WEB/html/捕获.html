@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <button id="clickMe">冒泡</button>
+    <button id="btn">捕获</button>
+    <script>
+        // var button = document.getElementById('clickMe');
+
+        // button.onclick = function () {
+        //     console.log('1. You click Button');
+        // };
+        // document.body.onclick = function () {
+        //     console.log('2. You click body');
+        // };
+        // document.onclick = function () {
+        //     console.log('3. You click document');
+        // };
+        // window.onclick = function () {
+        //     console.log('4. You click window');
+        // };
+        var btn = document.getElementById('btn');
+        btn.addEventListener('click', function () {
+            console.log('1. You click Button');
+        }, true);
+        document.body.addEventListener('click', function () {
+            console.log('2. You click body');
+        }, true);
+        document.addEventListener('click', function () {
+            console.log('3. You click document');
+        }, true);
+        window.addEventListener('click', function () {
+            console.log('4. You click window');
+        }, true);
+    </script>
+</body>
+
+</html>

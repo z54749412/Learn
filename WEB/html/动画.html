@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <h3>动画</h3>
+    <div>
+        <p>//兼容完整版，Opera 在这个属性上加入 webkit，所以没有-o-</p>
+        <p>-webkit-animation: myani 1s ease 2 alternate 0s both;</p>
+        <p>-moz-animation: myani 1s ease 2 alternate 0s both;</p>
+        <p>-ms-animation: myani 1s ease 2 alternate 0s both;</p>
+        <p>transition: all 1s ease 0s;</p>
+        <p>//@keyframes 也需要加上前缀</p>
+        <p>@-webkit-keyframes myani {...}</p>
+        <p>@-moz-keyframes myani {...}</p>
+        <p>@-o-keyframes myani {...}</p>
+        <p>@-ms-keyframes myani {...}</p>
+        <p>keyframes myani {...}</p>
+    </div>
+</body>
+</html>
