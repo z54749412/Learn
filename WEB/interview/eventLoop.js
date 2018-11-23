@@ -1,15 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-</head>
-
-<body>
-    <script>
         console.log('1');
 
         setTimeout(function () {
@@ -46,12 +34,9 @@
                 console.log('12')
             })
         })
-        console.log(1,7,6,8,2,4,3,5,9,11,10,12)
+        // 猜想顺序  1, 7, 6, 8, 2, 4, 3, 5, 9, 11, 10, 12
+        // node顺序 1, 7, 6, 8, 2, 4, 9, 11, 3, 10, 5, 12
         // 作者： ssssyoki
         // 链接： https: //juejin.im/post/59e85eebf265da430d571f89
         // 来源： 掘金
         // 著作权归作者所有。 商业转载请联系作者获得授权， 非商业转载请注明出处。
-    </script>
-</body>
-
-</html>

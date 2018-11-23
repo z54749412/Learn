@@ -1,3 +1,6 @@
+/**
+ * 计算0-n中出现多少次num
+ */
 var sumNumTimes = {
 	sumNumTimesA: function (n, num) {
 		var sum = 0;
@@ -20,7 +23,7 @@ var sumNumTimes = {
 			var nStr = n.toString();
 			var len = nStr.length;
 			var high, low, sum;
-			
+
 			if (len == 1) {
 				return 1;
 			}
@@ -83,7 +86,7 @@ var sumNumTimes = {
 			var nStr = n.toString();
 			var len = nStr.length;
 			var high, low, sum;
-			
+
 			if (len == 1) {
 				return 1;
 			}
@@ -123,7 +126,7 @@ var sumNumTimes = {
 					pow = Math.pow(10, 2 + i);
 					sum += temp[0] * pow + (temp[1] > num ? pow : (temp[1] === num ? 1 + n % pow : 0));
 				}
-				return sum; 
+				return sum;
 			}
 			var bn = parseInt(n / 100);
 
@@ -145,3 +148,6 @@ var sumNumTimes = {
 		}
 	}
 };
+console.log(sumNumTimes.sumNumTimesA(2000, 5))
+console.log(sumNumTimes.sumNumTimesB(2000, 5))
+console.log(sumNumTimes.sumNumTimesC(2000, 5))
