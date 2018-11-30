@@ -8,7 +8,6 @@ function result(arr, n, m) {
         }
     }
     function getCombinationArr(arr, n) {
-        debugger
         var r = [];
         (function c(t, a, n) {
             if (n === 0) {
