@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    function add(x) {
+      // debugger
+      var sum = x;
+      var tmp = function (y) {
+        // debugger
+        sum = sum + y;
+        console.log(sum)
+        return tmp;
+      };
+      console.log(tmp)
+      tmp.toString = function () {
+        console.log(sum)
+        return sum;
+      };
+      return tmp;
+    }
+    // console.log(add(1))
+    // console.log(add(1)(2))
+    // console.log(add(1)(2)(3))
+  </script>
+  <script>
+    function plus(num) {
+      var adder = function () {
+        var _args = [];
+        var _adder = function _adder() {
+          [].push.apply(_args, [].slice.call(arguments));
+          return _adder;
+        };
+        _adder.toString = function () {
+          // console.log(_args)
+          return _args.reduce(function (a, b) {
+            return a + b;
+          });
+        }
+
+        return _adder;
+      }
+      return adder()(num);
+    }
+    // console.log(plus(1))
+    // console.log(plus(1)(2))
+    console.log(plus(1)(2)(3))
+  </script>
+</body>
+
+</html>
