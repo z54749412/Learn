@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>es6 class 继承</title>
+</head>
+
+<body>
+  <a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=123456789&site=qq&menu=yes"><img border="0" src="img/button_11.gif"
+      alt="点击这里给我发消息" title="点击这里给我发消息" /></a>
+  <script>
+
+    // "use strict";
+    window.name = 'wahaha'
+
+    function A() {
+      this.name = '123'
+    }
+    A.prototype.getName = function () {
+      console.log(this.name)
+    }
+
+    let a1 = new A()
+    a1.getName() // 123
+    let a1GetName = a1.getName
+    a1GetName() // "use strict" 时，与class 声明一样报错，Cannot read property 'name' of undefined。不在严格模式下，输出 wahaha
+
+
+
+    /**
+     * class内部默认是严格模式，和JavaScript中的对象写法是不一样的。使用typeof来判断class的类型的时候返回的结果是function。
+     */
+
+    class B {
+      constructor() {
+        this.name = 123;
+      }
+      getName() {
+        console.log(this.name)
+      }
+    }
+
+    let b1 = new B()
+    b1.getName()  // 123
+    let b1GetName = b1.getName
+    b1GetName()  // Cannot read property 'name' of undefined  解析： class 内部默认使用了严格模式
+  </script>
+</body>
+
+</html>
