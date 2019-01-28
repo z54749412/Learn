@@ -39,6 +39,6 @@
         }
         return result.join("");
     }
-    var a = '99'
-    var b = '11'
+    var a = '999999999999999'
+    var b = '3'
     console.log(sumStrings(a, b))
