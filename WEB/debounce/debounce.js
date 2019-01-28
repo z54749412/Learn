@@ -17,4 +17,4 @@
         console.log('boom1')
     }
 
-    setInterval(debounce(fn, 500), 1000)
+    setInterval(debounce(fn, 500), 600)
