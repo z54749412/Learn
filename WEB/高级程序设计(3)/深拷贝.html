@@ -34,8 +34,15 @@
         var dad = {
             counts: [1, 2, 3],
             reads: {
-                paper: true
+                paper: true,
+                hello: function() {
+                  console.log(2)
+                }
+            },
+            say: function(){
+              console.log(1)
             }
+
         };
         var kid = extendDeep(dad);
 
