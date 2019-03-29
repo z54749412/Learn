@@ -47,6 +47,15 @@
  *
  */
 /**
+ *
+ * 主要利用indexOf API
+ * stringObject.indexOf(searchvalue,fromindex)
+ * abcabcdbb
+ * 当匹配到索引为3的a时发现重复
+ * 下一次 stringObject.indexOf(searchvalue, 1)
+ * 把第一个除去继续执行匹配
+ */
+/**
  * @param {string} s
  * @return {number}
  */
@@ -62,7 +71,10 @@ var lengthOfLongestSubstring = function(s) {
       if (index < i) {
           ptr = index + 1;
       }
-      max = Math.max(max, i-ptr+1);
+      max = Math.max(max, i - ptr + 1);
   }
   return max;
 };
+
+let s = 'abcabcdbb'
+lengthOfLongestSubstring(s)

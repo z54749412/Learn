@@ -8,7 +8,7 @@
       "type": "node",
       "request": "launch",
       "name": "Launch Program",
-      "program": "${workspaceFolder}/1.two-sum.js"
+      "program": "${workspaceFolder}/3.longest-substring-without-repeating-characters.js"
     }
   ]
 }
