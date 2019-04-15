@@ -6,13 +6,14 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "cross-env NODE_ENV=dev nodemon ./bin/www.js",
-    "prd": "cross-env NODE_ENV=production pm2 ./bin/www.js"
+    "prd": "cross-env NODE_ENV=production nodemon ./bin/www.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "cross-env": "^5.2.0",
+    "mysql": "^2.16.0",
     "nodemon": "^1.18.11"
   }
 }
