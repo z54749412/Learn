@@ -55,7 +55,6 @@ const newBlog = (blogData = {}) => {
 
   const sql = `insert into blogs (title, content, createtime, author) values('${title}', '${content}', ${createTime}, '${author}');`
   return exect(sql).then(insertData => {
-    console.log(insertData)
     return {
       id: insertData.insertId
     }
@@ -68,13 +67,30 @@ const newBlog = (blogData = {}) => {
 
 // 更新博客
 const updateBlog = (id, blogData = {}) => {
-  return true
+  const title = blogData.title
+  const content = blogData.content
+  let sql = `update blogs set state='1' `
+
+  if (content) {
+    sql += `, content='${content}' `
+  }
+
+  if (title) {
+    sql += `, title='${title}' `
+  }
+
+  sql += `where id=${id};`
+  return exect(sql).then(updateData => {
+    return !!updateData.changedRows
+  })
 }
 
 // 删除博客
 const deleteBlog = id => {
-  console.log(id)
-  return true
+  const sql = `delete from blogs where id=${id};`
+  return exect(sql).then(delData => {
+    return !!delData.affectedRows
+  })
 }
 
 module.exports = {

@@ -35,21 +35,25 @@ const handleBlogRouter = (req, res) => {
   // 修改博客
   if (method === 'POST' && req.path === '/api/blog/update') {
     const result = updateBlog(id, req.body)
-    if (result) {
-      return new SuccessModel(result)
-    } else {
-      return new ErrorModel(result)
-    }
+    return result.then(data => {
+      if (data) {
+        return new SuccessModel(data)
+      } else {
+        return new ErrorModel(data)
+      }
+    })
   }
 
   // 删除博客
   if (method === 'POST' && req.path === '/api/blog/delete') {
     const result = deleteBlog(id)
-    if (result) {
-      return new SuccessModel(result)
-    } else {
-      return new ErrorModel(result)
-    }
+    return result.then(data => {
+      if (data) {
+        return new SuccessModel(data)
+      } else {
+        return new ErrorModel(data)
+      }
+    })
   }
 }
 
