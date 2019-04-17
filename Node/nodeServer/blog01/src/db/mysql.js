@@ -15,7 +15,7 @@ con.connect()
 // const sql = `insert into blogs (title, content, createtime, author) values ('李四博客2', '咋回事呢', 1555291080308, '李四');`
 
 // 统一执行 sql 的函数
-function exect (sql) {
+function exec (sql) {
   const promise = new Promise((resolve, reject) => {
     con.query(sql, (err, result) => {
       if (err) {
@@ -29,5 +29,5 @@ function exect (sql) {
 }
 
 module.exports = {
-  exect
+  exec
 }

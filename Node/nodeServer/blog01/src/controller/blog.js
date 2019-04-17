@@ -1,4 +1,4 @@
-const { exect } = require('../db/mysql')
+const { exec } = require('../db/mysql')
 // 获取博客列表
 const getList = (author, keyword) => {
   let sql = `select * from blogs where 1=1 `
@@ -11,7 +11,7 @@ const getList = (author, keyword) => {
   }
 
   sql += `order by createtime desc;`
-  return exect(sql)
+  return exec(sql)
   // return [
   //   {
   //     id: 1,
@@ -34,7 +34,7 @@ const getList = (author, keyword) => {
 const getDetail = id => {
   const sql = `select * from blogs where id='${id}'`
 
-  return exect(sql).then(rows => {
+  return exec(sql).then(rows => {
     return rows[0]
   })
   // return {
@@ -54,7 +54,7 @@ const newBlog = (blogData = {}) => {
   const createTime = Date.now()
 
   const sql = `insert into blogs (title, content, createtime, author) values('${title}', '${content}', ${createTime}, '${author}');`
-  return exect(sql).then(insertData => {
+  return exec(sql).then(insertData => {
     return {
       id: insertData.insertId
     }
@@ -69,26 +69,18 @@ const newBlog = (blogData = {}) => {
 const updateBlog = (id, blogData = {}) => {
   const title = blogData.title
   const content = blogData.content
-  let sql = `update blogs set state='1' `
 
-  if (content) {
-    sql += `, content='${content}' `
-  }
+  const sql = `update blogs set title='${title}', content='${content}' where id=${id};`
 
-  if (title) {
-    sql += `, title='${title}' `
-  }
-
-  sql += `where id=${id};`
-  return exect(sql).then(updateData => {
+  return exec(sql).then(updateData => {
     return !!updateData.changedRows
   })
 }
 
 // 删除博客
-const deleteBlog = id => {
-  const sql = `delete from blogs where id=${id};`
-  return exect(sql).then(delData => {
+const deleteBlog = (id, author) => {
+  const sql = `delete from blogs where id=${id} and author='${author}';`
+  return exec(sql).then(delData => {
     return !!delData.affectedRows
   })
 }

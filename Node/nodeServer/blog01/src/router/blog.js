@@ -46,7 +46,8 @@ const handleBlogRouter = (req, res) => {
 
   // 删除博客
   if (method === 'POST' && req.path === '/api/blog/delete') {
-    const result = deleteBlog(id)
+    const author = '张三'
+    const result = deleteBlog(id, author)
     return result.then(data => {
       if (data) {
         return new SuccessModel(data)
