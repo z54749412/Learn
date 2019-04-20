@@ -4,8 +4,9 @@ const { set } = require('../db/redis')
 const handleUserRouter = (req, res) => {
   const method = req.method
 
-  if (method === 'GET' && req.path === '/api/user/login') {
-    const { username, password } = req.query
+  // 用户登陆
+  if (method === 'POST' && req.path === '/api/user/login') {
+    const { username, password } = req.body
     const result = login(username, password)
     return result.then(data => {
       if (data.username) {
@@ -18,17 +19,6 @@ const handleUserRouter = (req, res) => {
       return new ErrorModel('登陆失败')
     })
   }
-  // 用户登陆
-  // if (method === 'POST' && req.path === '/api/user/login') {
-  //   const { username, password } = req.body
-  //   const result = login(username, password)
-  //   return result.then(data => {
-  //     if (data.username) {
-  //       return new SuccessModel()
-  //     }
-  //     return new ErrorModel('登陆失败')
-  //   })
-  // }
 
   // 登陆验证测试
   if (method === 'GET' && req.path === '/api/user/login-test') {
