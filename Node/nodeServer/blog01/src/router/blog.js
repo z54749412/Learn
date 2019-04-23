@@ -16,8 +16,17 @@ const handleBlogRouter = (req, res) => {
 
   // 获取博客列表
   if (method === 'GET' && req.path === '/api/blog/list') {
-    const author = req.query.author || ''
+    let author = req.query.author || ''
     const keyword = req.query.keyword || ''
+    if (req.query.isadmin) {
+      const loginCheckResult = loginCheck(req)
+      if (loginCheckResult) {
+        return loginCheckResult
+      }
+      console.log(req.session)
+      // 这里创建的博客使用的realname 所以获取时也用realname
+      author = req.session.realname
+    }
     const result = getList(author, keyword)
     return result.then(listData => {
       return  new SuccessModel(listData)
@@ -36,7 +45,7 @@ const handleBlogRouter = (req, res) => {
   if (method === 'POST' && req.path === '/api/blog/new') {
     const loginCheckResult = loginCheck(req)
     if (loginCheckResult) {
-      return loginCheck
+      return loginCheckResult
     }
     const result = newBlog(req.body)
     req.body.author = req.session.username
@@ -49,7 +58,7 @@ const handleBlogRouter = (req, res) => {
   if (method === 'POST' && req.path === '/api/blog/update') {
     const loginCheckResult = loginCheck(req)
     if (loginCheckResult) {
-      return loginCheck
+      return loginCheckResult
     }
     const result = updateBlog(id, req.body)
     return result.then(data => {
@@ -65,7 +74,7 @@ const handleBlogRouter = (req, res) => {
   if (method === 'POST' && req.path === '/api/blog/delete') {
     const loginCheckResult = loginCheck(req)
     if (loginCheckResult) {
-      return loginCheck
+      return loginCheckResult
     }
     const author = req.session.username
     const result = deleteBlog(id, author)
