@@ -23,7 +23,6 @@ const handleBlogRouter = (req, res) => {
       if (loginCheckResult) {
         return loginCheckResult
       }
-      console.log(req.session)
       // 这里创建的博客使用的realname 所以获取时也用realname
       author = req.session.realname
     }
@@ -47,8 +46,8 @@ const handleBlogRouter = (req, res) => {
     if (loginCheckResult) {
       return loginCheckResult
     }
+    req.body.author = req.session.realname
     const result = newBlog(req.body)
-    req.body.author = req.session.username
     return result.then(data => {
       return new SuccessModel(data)
     })
@@ -76,7 +75,7 @@ const handleBlogRouter = (req, res) => {
     if (loginCheckResult) {
       return loginCheckResult
     }
-    const author = req.session.username
+    const author = req.session.realname
     const result = deleteBlog(id, author)
     return result.then(data => {
       if (data) {

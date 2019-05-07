@@ -1,4 +1,6 @@
-const { exec } = require('../db/mysql')
+const xss = require('xss')
+const { exec, escape } = require('../db/mysql')
+
 // 获取博客列表
 const getList = (author, keyword) => {
   let sql = `select * from blogs where 1=1 `
@@ -48,7 +50,7 @@ const getDetail = id => {
 
 // 新建博客
 const newBlog = (blogData = {}) => {
-  const title = blogData.title
+  const title = xss(blogData.title)
   const content = blogData.content
   const author = blogData.author
   const createTime = Date.now()
