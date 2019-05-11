@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <div id="app">
+    <h2>一个简单的Vue</h2>
+    {{message}}
+    <p>{{ddt}}</p>
+</div>
+<script src="./VueTest.js"></script>
+<script>
+    var app = new VueTest({
+        el:'#app',
+        data:{
+            message:'this is a test',
+            msg:'这是一段文字'
+        },
+        watch:{
+            'msg':function(newVal,oldVal){
+                console.log(newVal,oldVal);
+            }
+        },
+        computed:{
+            ddt:function(){
+                return this.msg.split('').reverse().join('');
+            }
+        }
+    })
+</script>
+</body>
+</html>
