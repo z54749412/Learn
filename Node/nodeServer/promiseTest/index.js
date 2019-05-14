@@ -58,3 +58,14 @@ getFileContent('a.json').then(res => {
 })
 
 // async await
+
+async function readFileData () {
+  const aData = await getFileContent('a.json')
+  console.log('a', aData)
+  const bData = await getFileContent(aData.next)
+  console.log('b', bData)
+  const cData = await getFileContent(bData.next)
+  console.log('c', cData)
+}
+
+readFileData()
