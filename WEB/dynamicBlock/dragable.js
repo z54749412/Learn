@@ -3,7 +3,7 @@
  * @Author: Ntfs
  * @Date: 2019-01-23 10:35:20
  * @LastEditors: Ntfs
- * @LastEditTime: 2019-02-01 16:07:55
+ * @LastEditTime: 2019-05-14 15:16:57
  */
 
 export default class Drag {
@@ -18,7 +18,6 @@ export default class Drag {
     }
   }
   init = function (opt) {
-    debugger
     var This = this
     if (opt.id) {
       this.obj = document.getElementById(opt.id)
