@@ -44,19 +44,19 @@ console.log(result(arr, 2, 7))
  * @param {number} n
  */
 
-function A(m,n){
-	return f(m) / f(m-n);
+function A(m, n) {
+    return f(m) / f(m - n);
 }
 
-function C(m,n){
-    return f(m) / (f(n)*f(m-n))
+function C(m, n) {
+    return f(m) / (f(n) * f(m - n))
 }
 
-function f(num){
-	if(num<=1){
-		return 1;
-	}
-	return num * f(num-1);
+function f(num) {
+    if (num <= 1) {
+        return 1;
+    }
+    return num * f(num - 1);
 }
 
 console.log('------------')

@@ -54,6 +54,7 @@ function binarySearchWhile(target, arr) {
  * @param arr
  * @returns {boolean}
  */
+
 function binarySearchSort(target, arr) {
     while (arr.length > 0) {
         //使用快速排序。以mid为中心划分大小，左边小，右边大。
